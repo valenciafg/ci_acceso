@@ -1,0 +1,114 @@
+{
+  "name": "accessmeru",
+  "description": "door access control application",
+  "main": "index.js",
+  "authors": [
+    "Victor Valencia <valencia6x@gmail.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "datatables.net": "^1.10.12",
+    "datatables.net-responsive": "^2.1.0",
+    "datatables.net-scroller": "^1.4.2",
+    "font-awesome": "^4.5.0",
+    "iCheck": "^1.0.2",
+    "jquery": "^2.2.0",
+    "jquery.redirect": "*",
+    "js-sha1": "^0.3.0",
+    "parsleyjs": "^2.3.5",
+    "select2": "^4.0.2",
+    "semantic": "semantic-ui#^2.2.6",
+    "moment": "^2.15.2",
+    "semantic-ui-calendar": "^0.0.3"
+  },
+  "overrides": {
+    "datatables.net": {
+      "main": [
+        "./js/jquery.dataTables.js"
+      ]
+    },
+    "datatables.net-responsive": {
+      "main": [
+        "./js/dataTables.responsive.js"
+      ]
+    },
+    "datatables.net-scroller": {
+      "main": [
+        "./js/dataTables.scroller.js"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "./css/font-awesome.css",
+        "./fonts/*"
+      ]
+    },
+    "iCheck": {
+      "main": [
+        "./skins/flat/blue.css",
+        "./skins/flat/blue.png",
+        "./skins/flat/blue@2x.png",
+        "./icheck.js"
+      ]
+    },
+    "jquery": {
+      "main": [
+        "./dist/jquery.js"
+      ]
+    },
+    "jquery.redirect": {
+      "main": [
+        "./jquery.redirect.js"
+      ]
+    },
+    "js-sha1": {
+      "main": [
+        "./src/sha1.js"
+      ]
+    },
+    "moment": {
+      "main": [
+        "./moment.js",
+        "./locale/es.js"
+      ]
+    },
+    "parsleyjs": {
+      "main": [
+        "./dist/parsley.js",
+        "./dist/i18n/es.js"
+      ]
+    },
+    "select2": {
+      "main": [
+        "./dist/css/select2.css",
+        "./dist/js/select2.full.js",
+        "./dist/i18n/es.js"
+      ]
+    },
+    "semantic": {
+      "main": [
+        "./dist/semantic.css",
+        "./dist/semantic.js",
+        "./dist/themes/default/assets/fonts/*",
+        "./dist/themes/default/assets/images/*",
+        "./dist/components/*.min.css",
+        "./dist/components/*.min.js"
+      ]
+    },
+    "semantic-ui-calendar": {
+      "main": [
+        "./dist/calendar.css",
+        "./dist/calendar.js"
+      ]
+    }
+  }
+}

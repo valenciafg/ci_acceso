@@ -1,0 +1,56 @@
+{
+	"dependencies": {
+		"main.js": {
+			"main":true,
+			"bower": [
+				"jquery.inputmask",
+				"parsleyjs",
+				"select2",
+				"iCheck",
+				"jquery.redirect",
+				"datatables.net",
+				"datatables.net-responsive",
+				"datatables.net-scroller",
+				"semantic",
+				"semantic-ui-calendar",
+				"moment"
+			]
+		},
+		"main.css": {
+			"files": [
+    		  	"css/**/*.css",
+				"styles/*.css"
+    		],
+    		"bower":[
+				"semantic",
+				"semantic-ui-calendar",
+				"font-awesome",
+				"select2",
+				"iCheck"
+			],
+			"main": true
+		},
+		"jquery.js": {
+			"bower": ["jquery"]
+		},
+		"plugins.js": {
+			"files":[
+				"scripts/dataTables.semanticui.min.js",
+				"scripts/buttons.semanticui.min.js"
+			]
+		},
+		"config.js":{
+			"files":[
+				"scripts/config.js"
+			]
+		},
+		"events.js": {
+			"files": [
+				"scripts/schedule.js"
+			]
+		}
+  },
+  "config": {
+    "devUrl": "http://example.dev"
+  }
+}
