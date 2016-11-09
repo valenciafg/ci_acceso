@@ -41,12 +41,15 @@
 		},
 		"config.js":{
 			"files":[
+				"scripts/globals.js",
 				"scripts/config.js"
 			]
 		},
 		"events.js": {
 			"files": [
-				"scripts/schedule.js"
+				"scripts/schedule.js",
+				"scripts/users.js",
+				"scripts/doors.js"
 			]
 		}
   },

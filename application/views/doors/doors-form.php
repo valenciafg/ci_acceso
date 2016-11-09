@@ -1,7 +1,19 @@
-<h3>Consulta de acceso por Horarios</h3>
-<form id="schedule-form" class="ui form">
+<h3>Consulta de acceso por Puertas</h3>
+<form id="doors-form" class="ui form">
     <div class="fields">
         <div class="four wide field">
+            <select id="doors-search" class="ui fluid search dropdown">
+                <option>Seleccione una puerta</option>
+                <?php
+                foreach ($doors as $door):
+                    ?>
+                    <option value="<?= $door['tp_term_id'];?>" data-name="<?= $door['tp_term_name'];?>" data-guid="<?= $door['tp_guid'];?>"><?= $door['tp_term_name'];?></option>
+                    <?php
+                endforeach;
+                ?>
+            </select>
+        </div>
+        <div class="three wide field">
             <div class="ui calendar start-date">
                 <div class="ui input left icon">
                     <i class="calendar icon"></i>
@@ -9,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="three wide field">
+        <div class="two wide field">
             <div class="ui calendar start-time">
                 <div class="ui input left icon">
                     <i class="calendar icon"></i>
@@ -17,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <div class="four wide field">
+        <div class="three wide field">
             <div class="ui calendar end-date">
                 <div class="ui input left icon">
                     <i class="calendar icon"></i>
@@ -25,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div class="three wide field">
+        <div class="two wide field">
             <div class="ui calendar end-time">
                 <div class="ui input left icon">
                     <i class="calendar icon"></i>
@@ -34,7 +46,7 @@
             </div>
         </div>
         <div class="two wide field">
-            <div id="search-schedule" class="ui vertical blue animated button" tabindex="0">
+            <div id="search-doors" class="ui vertical blue animated button" tabindex="0">
                 <div class="hidden content">Buscar</div>
                 <div class="visible content">
                     <i class="search icon"></i>

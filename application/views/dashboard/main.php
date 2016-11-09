@@ -1,7 +1,7 @@
 <div class="pusher">
 <?php
     $this->load->view('common/header');
-    $this->load->view('common/menu');
+    $this->load->view('common/menu',['item'=>'home']);
 ?>
 
     <div class="ui vertical segment container first-segment">

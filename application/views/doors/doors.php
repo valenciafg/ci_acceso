@@ -1,24 +1,24 @@
 <div class="pusher">
     <?php
     $this->load->view('common/header');
-    $this->load->view('common/menu',['item'=>'schedule']);
+    $this->load->view('common/menu',['item'=>'doors']);
     ?>
 
     <div class="ui vertical segment container first-segment">
-        <?php $this->load->view('doors/schedule-form');?>
+        <?php $this->load->view('doors/doors-form',['doors'=>$doors]);?>
     </div>
     <div class="ui basic vertical segment container">
-        <div id="schedule-message" style="display: none;">
+        <div id="doors-message" style="display: none;">
         </div>
     </div>
-    <div id="schedule-loading" class="ui basic vertical segment container" style="display: none;">
+    <div id="door-loading" class="ui basic vertical segment container" style="display: none;">
         <div class="ui active inverted dimmer">
             <div class="ui text loader">Cargando</div>
         </div>
         <p></p>
     </div>
-    <div id="schedule-result-list" class="ui basic vertical segment container" style="display: none;">
-        <?php $this->load->view('doors/schedule-result-list');?>
+    <div id="doors-result-list" class="ui basic vertical segment container" style="display: none;">
+        <?php $this->load->view('doors/doors-result-list');?>
     </div>
 </div>
 

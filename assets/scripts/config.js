@@ -1,14 +1,11 @@
 $(document).ready(function() {
     $('.ui.dropdown').dropdown();
-    $('#lastDoorMov').DataTable({
-        "order": [[ 3, "desc" ]],
-        "language": {
-            "url": "extras/SpanishDatatable.json"
-        }
-    });
-    var now = moment();
-    console.log('hoy es '+now);
-    console.log('mejor es '+now.format('DD-MM-YYYY'));
+    //Global DataTables
+    var lastDoorMov = $('#lastDoorMov');
+    var lastDoorMovTable = createDataTable(lastDoorMov);
+    // var now = moment();
+    // console.log('hoy es '+now);
+    // console.log('mejor es '+now.format('DD-MM-YYYY'));
     $(".start-date").calendar({
         // initialDate: now.format('DD-MM-YYYY'),
         // monthFirst: false,
