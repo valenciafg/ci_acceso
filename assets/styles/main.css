@@ -1,3 +1,10 @@
 .first-segment {
     margin-top: 5em !important;
 }
+.ui.vertical.segment{
+    margin: 0 25px 25px 25px;
+}
+.vertical-select{
+    max-height: 400px;
+    overflow-y: auto;
+}

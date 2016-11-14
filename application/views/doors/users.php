@@ -4,8 +4,14 @@
     $this->load->view('common/menu',['item'=>'users']);
     ?>
 
-    <div class="ui vertical segment container first-segment">
-        <?php $this->load->view('doors/users-form',['users'=>$door_users]);?>
+    <div class="ui vertical segment first-segment">
+        <h3>Consulta de acceso por Usuarios</h3>
+        <div class="ui grid">
+            <?php $this->load->view('doors/users-form',['users'=>$door_users]);?>
+            <div id="users-result-list" class="ten wide column" style="display: none;">
+                <?php $this->load->view('doors/user-result-list');?>
+            </div>
+        </div>
     </div>
     <div class="ui basic vertical segment container">
         <div id="users-message" style="display: none;">
@@ -17,9 +23,9 @@
         </div>
         <p></p>
     </div>
-    <div id="users-result-list" class="ui basic vertical segment container" style="display: none;">
-        <?php $this->load->view('doors/user-result-list');?>
-    </div>
+    <!--<div id="users-result-list" class="ui basic vertical segment container" style="display: none;">
+        <?php /*$this->load->view('doors/user-result-list');*/?>
+    </div>-->
 </div>
 
 <?php $this->load->view('common/footer');?>
