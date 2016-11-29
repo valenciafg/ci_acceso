@@ -84,4 +84,31 @@ $(document).ready(function() {
         return createDataTable(selector);
     }
     window.reinitialiseDataTable = reinitialiseDataTable;
+
+    var lastDoorMov = $('#lastDoorMov');
+    var lastDoorMovTable = createDataTable(lastDoorMov);
+
+    function updateDefaultTable(){
+        $.ajax({
+            url: app_url+"main/main/getLastActionsAJAX",
+            type: "POST",
+            dataType: "json",
+            success: function(data){
+                console.log(data);
+                if(data.error === false){
+                    destroyDataTable(lastDoorMovTable);
+                    var events = createDoorsEventsResultBody(data.events);
+                    $("#lastDoorMov-body").html(events);
+                    lastDoorMovTable = createDataTable(lastDoorMov);
+                }
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+                console.log("Error: " + JSON.stringify(error));
+            }
+        });
+    }
+    if($("#lastDoorMov").length>0){
+        setInterval(updateDefaultTable, 30000);
+    }
 });

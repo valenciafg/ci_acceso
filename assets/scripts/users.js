@@ -1,4 +1,29 @@
 $(document).ready(function() {
+    function searchUsersAJAX(){
+        $.ajax({
+            url: app_url+"doors/doors/getUserAJAX",
+            type: "POST",
+            dataType: "json",
+            success: function(data){
+                var user_list = $('.user-select-search');
+                if(data.error===false && user_list.length>0){
+                    $(".user-select-search").html('');
+                    var users = data.users;
+                    var options = '';
+                    var tam = data.users.length;
+                    for(var i = 0; i < tam; i++){
+                        options = '<div class="link item" data-id="'+data.users[i].c_id+'" data-guid="'+data.users[i].b_guid+'">'+data.users[i].c_fname+' '+data.users[i].c_lname+'</div>';
+                        $(".user-select-search").append(options);
+                    }
+                }
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+                console.log("Error: " + JSON.stringify(error));
+            }
+        });
+    }
+
     $('body').on('change', '#user-search', function() {
         var user = $(this).val();
         var guid = $(this).find(':selected').attr('data-guid');
@@ -27,6 +52,9 @@ $(document).ready(function() {
             }
         });
     });
+    if($(".user-select-search").length>0){
+        setInterval(searchUsersAJAX, 20000);
+    }
     function accessOptions(result){
         var options = '<option>Accesos</option>';
         var tam = result.length;
@@ -37,6 +65,7 @@ $(document).ready(function() {
     }
     var usersSelector = $('#user-result-list-table');
     var usersTable = createDataTable(usersSelector);
+
     $("#search-users").click(function () {
         var user_id = $('#user-search').find(":selected").val();
         var access_selector = $('#user-access').find(":selected");
@@ -79,6 +108,7 @@ $(document).ready(function() {
     var door_name_to_search = '*';
     var user_items = $(".user-select-search").find('.item');
     var access_items = $(".access-select-search").find('.item');
+
     $(user_items).click(function(e) {
         var user = $(this).data('id');
         user_id_to_search = user;
@@ -109,6 +139,7 @@ $(document).ready(function() {
             }
         });
     });
+
     $(access_items).click(function(e) {
         var door_name = $(this).data('name');
         door_name_to_search = door_name;

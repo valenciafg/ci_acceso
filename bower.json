@@ -28,7 +28,10 @@
     "select2": "^4.0.2",
     "semantic": "semantic-ui#^2.2.6",
     "moment": "^2.15.2",
-    "semantic-ui-calendar": "^0.0.3"
+    "semantic-ui-calendar": "^0.0.3",
+    "fullcalendar": "^3.0.1",
+    "vegas": "^2.3.1",
+    "tether": "^1.3.7"
   },
   "overrides": {
     "datatables.net": {
@@ -44,6 +47,20 @@
     "datatables.net-scroller": {
       "main": [
         "./js/dataTables.scroller.js"
+      ]
+    },
+    "fullcalendar": {
+      "main": [
+        "./dist/fullcalendar.js",
+        "./dist/locale-all.js",
+        "./dist/gcal.js",
+        "./dist/fullcalendar.min.css"
+      ]
+    },
+    "vegas": {
+      "main": [
+        "./dist/vegas.js",
+        "./dist/vegas.css"
       ]
     },
     "font-awesome": {
@@ -108,6 +125,11 @@
       "main": [
         "./dist/calendar.css",
         "./dist/calendar.js"
+      ]
+    },
+    "tether": {
+      "main": [
+        "./dist/js/tether.js"
       ]
     }
   }

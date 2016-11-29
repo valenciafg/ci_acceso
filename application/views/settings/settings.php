@@ -1,0 +1,24 @@
+<div class="pusher">
+    <?php
+    $this->load->view('common/header');
+    $this->load->view('common/menu',['item'=>'settings']);
+    ?>
+
+    <div class="ui vertical segment container first-segment">
+    	<div class="ui top attached tabular menu settings">
+    		<div class="item active" data-tab="tab-general">General</div>
+    		<div class="item" data-tab="tab-doors">Control de Puertas</div>
+    	</div>
+    	<?php $this->load->view('settings/general_tab');?>
+    	<?php $this->load->view('settings/doors_tab');?>
+	</div>
+</div>
+
+<?php $this->load->view('common/footer');?>
+<script src="dist/scripts/jquery.js" type="text/javascript"></script>
+<script src="dist/scripts/libs.js" type="text/javascript"></script>
+<script src="dist/scripts/plugins.js" type="text/javascript"></script>
+<script src="dist/scripts/main.js" type="text/javascript"></script>
+<script src="dist/scripts/events.js"></script>
+</body>
+</html>

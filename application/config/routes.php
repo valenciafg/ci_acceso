@@ -51,8 +51,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'main/main';
 $route['main'] = 'main/main';
+$route['settings'] = 'settings/settings';
 $route['schedule'] = 'doors/doors/schedule';
 $route['users'] = 'doors/doors/users';
 $route['doors'] = 'doors/doors/doors';
+$route['calendar'] = 'calendar/calendar';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

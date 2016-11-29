@@ -1,0 +1,72 @@
+/*Evento Simple*/
+.single-event{
+    background-color: #668CD9 !important;
+    border-color: #FFFFFF !important;
+    color: #fff !important;
+}
+/*Festividades Venezolanas*/
+.ve-holidays{
+    background-color: #AD2D2D !important;
+    border-color: #FFFFFF !important;
+    color: #fff !important;
+}
+/*Festivos Cristianos*/
+.christian-holidays{
+    background-color: #C4A883 !important;
+    border-color: #FFFFFF !important;
+    color: #fff !important;
+}
+/*Eventos de Cumpleaños*/
+.event-birthday{
+    background-color: #603F99 !important;
+    border-color: #FFFFFF !important;
+    color: #fff !important;
+}
+/*Eventos Ejecutivos*/
+.event-executive{
+    background-color: #E0C240 !important;
+    border-color: #FFFFFF !important;
+    color: #fff !important;
+}
+/*Eventos de Bodas*/
+.event-wedding{
+    background-color: #7EC225 !important;
+    border-color: #FFFFFF !important;
+    color: #fff !important;
+}
+/* Lunes Bancarios*/
+.event-bank{
+    background-color: #ff7c4a !important;
+    border-color: #FFFFFF !important;
+    color: #fff !important;
+}
+.text-center {
+    text-align:center;
+}
+/*Celda de dia actual*/
+.fc-today{
+    background: #F1F1F1 !important;
+}
+/*Titulos de la tabla y de los dias de semana*/
+.fc-left,.fc-day-header{
+    text-transform: capitalize;
+}
+/*Columna Domingo*/
+.fc-sun{
+    color:#ff4136;
+}
+/*Titulo de Eventos*/
+.fc-title{
+    font-size: 1.1em !important
+}
+/*Contenedor del Calendario*/
+.calendar-container{
+    background: rgba(251,251,251,0.9);
+    border-radius: 10px;
+}
+/*Contenedor de grupo de botones de eventos*/
+.event-button-group{
+    text-align:center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

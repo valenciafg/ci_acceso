@@ -1,19 +1,41 @@
 {
 	"dependencies": {
-		"main.js": {
-			"main":true,
+        "libs.js": {
 			"bower": [
-				"jquery.inputmask",
-				"parsleyjs",
-				"select2",
-				"iCheck",
-				"jquery.redirect",
+				"tether",
+				"bootstrap",
 				"datatables.net",
+				"iCheck",
 				"datatables.net-responsive",
 				"datatables.net-scroller",
+				"moment",
+				"fullcalendar",
+				"vegas",
+				"parsleyjs",
+				"select2",
 				"semantic",
-				"semantic-ui-calendar",
-				"moment"
+				"semantic-ui-calendar"
+			]
+		},
+		"jquery.js": {
+			"bower": [
+				"jquery",
+				"jquery.inputmask",
+				"jquery.redirect"
+			]
+		},
+		"plugins.js": {
+			"files":[
+				"scripts/dataTables.semanticui.min.js",
+				"scripts/buttons.semanticui.min.js"
+			]
+		},
+		"main.js": {
+			"main":true,
+			"files":[
+				"scripts/globals.js",
+				"scripts/config.js",
+				"scripts/calendar_events.js"
 			]
 		},
 		"main.css": {
@@ -26,24 +48,11 @@
 				"semantic-ui-calendar",
 				"font-awesome",
 				"select2",
-				"iCheck"
+				"iCheck",
+				"vegas",
+				"fullcalendar"
 			],
 			"main": true
-		},
-		"jquery.js": {
-			"bower": ["jquery"]
-		},
-		"plugins.js": {
-			"files":[
-				"scripts/dataTables.semanticui.min.js",
-				"scripts/buttons.semanticui.min.js"
-			]
-		},
-		"config.js":{
-			"files":[
-				"scripts/globals.js",
-				"scripts/config.js"
-			]
 		},
 		"events.js": {
 			"files": [

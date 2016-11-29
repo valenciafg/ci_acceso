@@ -19,6 +19,17 @@ class Doors extends CI_Controller {
         $data['door_users'] = $this->doors_model->getUsersWithBadge();
         $this->load->view('doors/users',$data);
     }
+    public function getUserAJAX(){
+        $error = true;
+        $msg = '';
+        $users = $this->doors_model->getUsersWithBadge();
+        if(!empty($users)){
+            $error = false;
+        }
+        $return = array('error'=>$error,'msg'=>$msg,"users"=>$users);
+        header('Content-Type: application/json');
+        echo json_encode($return);
+    }
     public function doors(){
         $data['doors'] = $this->doors_model->getTerminals();
         $this->load->view('doors/doors',$data);

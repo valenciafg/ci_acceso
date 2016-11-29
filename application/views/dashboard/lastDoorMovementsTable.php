@@ -11,7 +11,7 @@
             <th>Fecha y Hora</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="lastDoorMov-body">
     <?php
         foreach ($door_actions as $action):
             $user = (isset($action['x_fname'])&&!empty($action['x_fname'])?$action['x_fname']:'').' '.(isset($action['x_lname'])&&!empty($action['x_lname'])?$action['x_lname']:'');

@@ -13,7 +13,9 @@
             <a class="<?= ($item=='schedule'?'active ':'')?>item" href="<?= base_url().'schedule';?>">Horarios</a>
         </div>
     </div>
+    <a class="<?= ($item=='calendar'?'active ':'')?>item" href="<?=base_url().'calendar';?>">Calendario</a>
     <div class="right menu">
+        <a href="<?= base_url().'settings';?>" class="<?= ($item=='settings'?'active ':'')?>item">Configuración</a>
         <div class="ui dropdown item item-user">
             Usuario <i class="dropdown icon"></i>
             <div class="menu">
