@@ -1,4 +1,12 @@
 $(document).ready(function() {
+    var user_id_to_search = 0;
+    var door_name_to_search = '*';
+    var user_items = $(".user-select-search").find('.item');
+
+    var access_items = $(".access-select-search").find('.item');
+    /**
+     * Serach user via AJAX
+     */
     function searchUsersAJAX(){
         $.ajax({
             url: app_url+"doors/doors/getUserAJAX",
@@ -12,9 +20,10 @@ $(document).ready(function() {
                     var options = '';
                     var tam = data.users.length;
                     for(var i = 0; i < tam; i++){
-                        options = '<div class="link item" data-id="'+data.users[i].c_id+'" data-guid="'+data.users[i].b_guid+'">'+data.users[i].c_fname+' '+data.users[i].c_lname+'</div>';
-                        $(".user-select-search").append(options);
+                        options += '<div class="link item user-item" data-id="'+data.users[i].c_id+'" data-guid="'+data.users[i].b_guid+'">'+data.users[i].c_fname+' '+data.users[i].c_lname+'</div>';
                     }
+                    $(".user-select-search").append(options);
+                    user_items = $(".user-select-search").find('.item');
                 }
             },
             error: function(request, error) {
@@ -24,6 +33,9 @@ $(document).ready(function() {
         });
     }
 
+    /**
+     *  User search select (Unused)
+     */
     $('body').on('change', '#user-search', function() {
         var user = $(this).val();
         var guid = $(this).find(':selected').attr('data-guid');
@@ -104,17 +116,18 @@ $(document).ready(function() {
         }
         return items;
     }
-    var user_id_to_search = 0;
-    var door_name_to_search = '*';
-    var user_items = $(".user-select-search").find('.item');
-    var access_items = $(".access-select-search").find('.item');
 
-    $(user_items).click(function(e) {
+    /**
+     * Search Terminal by User
+     */
+    $(".user-select-search").on("click", ".user-item", function(){
+        var contenido = $(this).html();
         var user = $(this).data('id');
         user_id_to_search = user;
         var guid = $(this).data('guid');
         $(".access-column").hide();
         $(".access-select-search").html('');
+        $("#users-result-list").hide();
         $.ajax({
             url: app_url+"doors/doors/getUserTerminalAccess",
             type: "POST",
@@ -146,7 +159,14 @@ $(document).ready(function() {
         console.log('el nombre de la peuerta es' + door_name_to_search);
         search_user_moves(user_id_to_search,door_name_to_search);
     });
+    /**
+     * Search user moves by door id (terminal) and user id
+     * @param user
+     * @param door
+     */
     function search_user_moves(user,door){
+        $("#users-result-list").hide();
+        $("#users-message").hide();
         $.ajax({
             url: app_url + "doors/doors/searchEventByUsersAndAccess",
             type: "POST",

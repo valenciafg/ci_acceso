@@ -8,24 +8,21 @@
         <h3>Consulta de acceso por Usuarios</h3>
         <div class="ui grid">
             <?php $this->load->view('doors/users-form',['users'=>$door_users]);?>
-            <div id="users-result-list" class="ten wide column" style="display: none;">
-                <?php $this->load->view('doors/user-result-list');?>
+            <!-- Doors movement result list -->
+            <div class="ten wide column">
+                <div id="users-message"></div><br>
+                <div id="users-loading" style="display: none;">
+                    <div class="ui active inverted dimmer">
+                        <div class="ui text loader">Cargando</div>
+                    </div>
+                    <p></p>
+                </div>
+                <div id="users-result-list" style="display: none;">
+                    <?php $this->load->view('doors/user-result-list');?>
+                </div>
             </div>
         </div>
     </div>
-    <div class="ui basic vertical segment container">
-        <div id="users-message" style="display: none;">
-        </div>
-    </div>
-    <div id="users-loading" class="ui basic vertical segment container" style="display: none;">
-        <div class="ui active inverted dimmer">
-            <div class="ui text loader">Cargando</div>
-        </div>
-        <p></p>
-    </div>
-    <!--<div id="users-result-list" class="ui basic vertical segment container" style="display: none;">
-        <?php /*$this->load->view('doors/user-result-list');*/?>
-    </div>-->
 </div>
 
 <?php $this->load->view('common/footer');?>
