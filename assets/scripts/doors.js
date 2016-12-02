@@ -1,15 +1,19 @@
 $(document).ready(function() {
     var doorsSelector = $('#doors-result-list-table');
     var doorsTable = createDataTable(doorsSelector);
-    $("#search-doors").click(function () {
-        var door_selector = $('#doors-search').find(":selected");
-        var door_id = door_selector.val();
-        var door_name = door_selector.attr("data-name");
-        var door_guid = door_selector.attr("data-guid");
-        var start_date = $('#start_date').val();
-        var start_time = $('#start_time').val();
-        var end_date = $('#end_date').val();
-        var end_time = $('#end_time').val();
+
+    var door_selector;
+    var door_id;
+    var door_name;
+    var door_guid;
+    var start_date;
+    var start_time;
+    var end_date;
+    var end_time;
+    var do_again_doors = 0;
+
+    function searchDoorMovsAJAX(){
+        // console.log("estoy buscando");
         $.ajax({
             url: app_url+"doors/doors/searchEventByDoorAndSchedule",
             type: "POST",
@@ -36,6 +40,10 @@ $(document).ready(function() {
                     $("#doors-result-list-body").html(events);
                     doorsTable = createDataTable(doorsSelector);
                     $("#doors-result-list").show();
+                    if(do_again_doors < 1) {
+                        do_again_doors = 1;
+                        setInterval(searchDoorMovsAJAX, 20000);
+                    }
                 }
             },
             error: function(request, error) {
@@ -43,5 +51,16 @@ $(document).ready(function() {
                 console.log("Error: " + JSON.stringify(error));
             }
         });
+    }
+    $("#search-doors").click(function () {
+        door_selector = $('#doors-search').find(":selected");
+        door_id = door_selector.val();
+        door_name = door_selector.attr("data-name");
+        door_guid = door_selector.attr("data-guid");
+        start_date = $('#start_date').val();
+        start_time = $('#start_time').val();
+        end_date = $('#end_date').val();
+        end_time = $('#end_time').val();
+        searchDoorMovsAJAX();
     });
 });

@@ -5,6 +5,8 @@
     ?>
 
     <div class="ui vertical segment container first-segment">
+		<div id="setting-error-msg"></div>
+		<div id="setting-positive-msg"></div>
     	<div class="ui top attached tabular menu settings">
     		<div class="item active" data-tab="tab-general">General</div>
     		<div class="item" data-tab="tab-doors">Control de Puertas</div>

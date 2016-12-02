@@ -33,6 +33,7 @@
 		"main.js": {
 			"main":true,
 			"files":[
+				"scripts/settings.js",
 				"scripts/globals.js",
 				"scripts/config.js",
 				"scripts/calendar_events.js"

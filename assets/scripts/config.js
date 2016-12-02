@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('.ui.dropdown').dropdown();
+    $('.ui.checkbox').checkbox();
     //Tab init
     $('.ui.tabular.menu.settings .item').tab();
     //Vegas Slider Init

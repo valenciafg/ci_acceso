@@ -1,12 +1,14 @@
 $(document).ready(function() {
     var scheduleSelector = $('#schedule-result-list-table');
     var scheduleTable = createDataTable(scheduleSelector);
-    $("#search-schedule").click(function () {
-        var schedule_form = $('#schedule-form').serialize();
+    var main_schedule_form = "";
+    var do_again = 0;
+    function searchScheduleAJAX(){
+        // console.log("asd");
         $.ajax({
             url: app_url+"doors/doors/searchEventsBySchedule",
             type: "POST",
-            data: schedule_form,
+            data: main_schedule_form,
             dataType: "json",
             beforeSend: function(){
                 $("#schedule-loading").show();
@@ -21,6 +23,10 @@ $(document).ready(function() {
                     $("#schedule-result-list-body").html(events);
                     scheduleTable = createDataTable(scheduleSelector);
                     $("#schedule-result-list").show();
+                    if(do_again < 1) {
+                        do_again = 1;
+                        setInterval(searchScheduleAJAX, 20000);
+                    }
                 }
             },
             error: function(request, error) {
@@ -28,5 +34,9 @@ $(document).ready(function() {
                 console.log("Error: " + JSON.stringify(error));
             }
         });
+    }
+    $("#search-schedule").click(function () {
+        main_schedule_form = $('#schedule-form').serialize();
+        searchScheduleAJAX(0);
     });
 });
