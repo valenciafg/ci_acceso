@@ -26,8 +26,7 @@
 		},
 		"plugins.js": {
 			"files":[
-				"scripts/dataTables.semanticui.min.js",
-				"scripts/buttons.semanticui.min.js"
+				"scripts/dataTables.semanticui.min.js"
 			]
 		},
 		"main.js": {

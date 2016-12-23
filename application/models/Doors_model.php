@@ -13,27 +13,15 @@ class Doors_model extends CI_Model
      */
     public function getLastActions(){
         $this->db->select('x.x_hist_type,x.x_panel_name,x_term_name,x.x_fname,x.x_lname,x.x_timestamp,x.x_badge_number,b.b_number_str,b.b_cardholder_id,b.b_description,c.c_lname,c.c_fname');
-        $this->db->limit(20);
+        $this->db->limit(150);
         $this->db->from('xaction as x');
         $this->db->join('badge as b', 'b.b_number_str = x.x_badge_number');
         $this->db->join('cardholder as c', 'b.b_cardholder_id = c.c_id');
-        $this->db->where('x.x_hist_type',35);
-        $this->db->order_by('x.x_timestamp', 'DESC');
-        $query = $this->db->get();
-        $deny = $query->result_array();
-
-        $this->db->select('x.x_hist_type,x.x_panel_name,x_term_name,x.x_fname,x.x_lname,x.x_timestamp,x.x_badge_number,b.b_number_str,b.b_cardholder_id,b.b_description,c.c_lname,c.c_fname');
-        $this->db->limit(20);
-        $this->db->from('xaction as x');
-        $this->db->join('badge as b', 'b.b_number_str = x.x_badge_number');
-        $this->db->join('cardholder as c', 'b.b_cardholder_id = c.c_id');
-        $this->db->where('x.x_hist_type',68);
+        $this->db->where_in('x.x_hist_type',[35,68,33,37]);
         $this->db->order_by('x.x_timestamp', 'DESC');
         $query = $this->db->get();
         $allow = $query->result_array();
-
-        $all = array_merge($deny,$allow);
-        return $all;
+        return $allow;
     }
 
     /**
@@ -47,7 +35,7 @@ class Doors_model extends CI_Model
         $this->db->from('xaction as x');
         $this->db->join('badge as b', 'b.b_number_str = x.x_badge_number');
         $this->db->join('cardholder as c', 'b.b_cardholder_id = c.c_id');
-        $this->db->where_in('x.x_hist_type',[35,68]);
+        $this->db->where_in('x.x_hist_type',[35,68,33,37]);
         $this->db->where('x.x_timestamp >=', $start);
         $this->db->where('x.x_timestamp <=', $end);
         $this->db->order_by('x.x_timestamp', 'DESC');
@@ -131,12 +119,38 @@ class Doors_model extends CI_Model
             $this->db->from('xaction as x');
             $this->db->join('badge as b', 'b.b_number_str = x.x_badge_number');
             $this->db->join('cardholder as c', 'b.b_cardholder_id = c.c_id');
+            $this->db->where('x.x_hist_type',33);
+            $this->db->where('c.c_id',$cardholder_id);
+            $this->db->like('x.x_term_name', $term_name);
+            $this->db->order_by('x.x_timestamp', 'DESC');
+            $query = $this->db->get();
+            $invalid_card = $query->result_array();
+
+            $this->db->select('x.x_hist_type,x.x_panel_name,x_term_name,x.x_fname,x.x_lname,x.x_timestamp,x.x_badge_number,b.b_number_str,b.b_cardholder_id,b.b_description,c.c_lname,c.c_fname');
+            $this->db->limit(50);
+            $this->db->from('xaction as x');
+            $this->db->join('badge as b', 'b.b_number_str = x.x_badge_number');
+            $this->db->join('cardholder as c', 'b.b_cardholder_id = c.c_id');
             $this->db->where('x.x_hist_type',35);
             $this->db->where('c.c_id',$cardholder_id);
             $this->db->like('x.x_term_name', $term_name);
             $this->db->order_by('x.x_timestamp', 'DESC');
             $query = $this->db->get();
             $deny = $query->result_array();
+
+            $first = array_merge($invalid_card,$deny);
+
+            $this->db->select('x.x_hist_type,x.x_panel_name,x_term_name,x.x_fname,x.x_lname,x.x_timestamp,x.x_badge_number,b.b_number_str,b.b_cardholder_id,b.b_description,c.c_lname,c.c_fname');
+            $this->db->limit(50);
+            $this->db->from('xaction as x');
+            $this->db->join('badge as b', 'b.b_number_str = x.x_badge_number');
+            $this->db->join('cardholder as c', 'b.b_cardholder_id = c.c_id');
+            $this->db->where('x.x_hist_type',37);
+            $this->db->where('c.c_id',$cardholder_id);
+            $this->db->like('x.x_term_name', $term_name);
+            $this->db->order_by('x.x_timestamp', 'DESC');
+            $query = $this->db->get();
+            $deny_timezone = $query->result_array();
 
             $this->db->select('x.x_hist_type,x.x_panel_name,x_term_name,x.x_fname,x.x_lname,x.x_timestamp,x.x_badge_number,b.b_number_str,b.b_cardholder_id,b.b_description,c.c_lname,c.c_fname');
             $this->db->limit(50);
@@ -150,7 +164,9 @@ class Doors_model extends CI_Model
             $query = $this->db->get();
             $allow = $query->result_array();
 
-            $all = array_merge($deny,$allow);
+            $second = array_merge($deny_timezone,$allow);
+
+            $all = array_merge($first,$second);
             return $all;
     }
 
@@ -174,7 +190,27 @@ class Doors_model extends CI_Model
         $this->db->like('x.x_term_name', $door_name);
         $this->db->order_by('x.x_timestamp', 'DESC');
         $query = $this->db->get();
+        $invalid_card = $query->result_array();
+
+        $this->db->select('x.x_hist_type,x.x_panel_name,x_term_name,x.x_fname,x.x_lname,x.x_timestamp,x.x_badge_number');
+        $this->db->limit(50);
+        $this->db->from('xaction as x');
+        $this->db->where('x.x_hist_type',35);
+        $this->db->like('x.x_term_name', $door_name);
+        $this->db->order_by('x.x_timestamp', 'DESC');
+        $query = $this->db->get();
         $deny = $query->result_array();
+
+        $first = array_merge($invalid_card,$deny);
+
+        $this->db->select('x.x_hist_type,x.x_panel_name,x_term_name,x.x_fname,x.x_lname,x.x_timestamp,x.x_badge_number');
+        $this->db->limit(50);
+        $this->db->from('xaction as x');
+        $this->db->where('x.x_hist_type',35);
+        $this->db->like('x.x_term_name', $door_name);
+        $this->db->order_by('x.x_timestamp', 'DESC');
+        $query = $this->db->get();
+        $deny_timezone = $query->result_array();
 
         $this->db->select('x.x_hist_type,x.x_panel_name,x_term_name,x.x_fname,x.x_lname,x.x_timestamp,x.x_badge_number');
         $this->db->limit(50);
@@ -185,7 +221,9 @@ class Doors_model extends CI_Model
         $query = $this->db->get();
         $allow = $query->result_array();
 
-        $all = array_merge($deny,$allow);
+        $second = array_merge($deny_timezone,$allow);
+
+        $all = array_merge($first,$second);
         return $all;
     }
 
@@ -194,7 +232,7 @@ class Doors_model extends CI_Model
         $this->db->from('xaction as x');
         $this->db->join('badge as b', 'b.b_number_str = x.x_badge_number');
         $this->db->join('cardholder as c', 'b.b_cardholder_id = c.c_id');
-        $this->db->where_in('x.x_hist_type',[35,68]);
+        $this->db->where_in('x.x_hist_type',[35,68,33,37]);
         $this->db->where('x.x_timestamp >=', $start);
         $this->db->where('x.x_timestamp <=', $end);
         $this->db->like('x.x_term_name', $door_name);

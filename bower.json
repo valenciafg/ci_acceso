@@ -54,7 +54,7 @@
         "./dist/fullcalendar.js",
         "./dist/locale-all.js",
         "./dist/gcal.js",
-        "./dist/fullcalendar.min.css"
+        "./dist/fullcalendar.css"
       ]
     },
     "vegas": {

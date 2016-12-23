@@ -23,13 +23,15 @@ $(document).ready(function() {
         var tam = result.length;
         var event_type = '';
         var event_datetime;
+        var unix_event_datetime;
         var event_datetime_formated;
         var fname;
         var lname;
         var user;
         for (var i = 0; i < tam; i++) {
             event_datetime = moment(result[i].x_timestamp);
-            event_datetime_formated = event_datetime.format('DD-MM-YYYY HH:mm:ss');
+            unix_event_datetime = event_datetime.unix();
+            event_datetime_formated = event_datetime.format('DD/MM/YYYY hh:mm:ss A');
             if(result[i].x_fname){
                fname = result[i].x_fname;
             }else{
@@ -44,13 +46,21 @@ $(document).ready(function() {
             if(result[i].x_hist_type === 35){
                 event_type = "<div class='ui red label'>Acceso Denegado</div>";
             }else{
-                event_type = "<div class='ui green label'>Puerta Abierta</div>";
+                if(result[i].x_hist_type === 33) {
+                    event_type = "<div class='ui green label'>Tarjeta Inválida</div>";
+                }else{
+                    if(result[i].x_hist_type === 37){
+                        event_type = "<div class='ui orange label'>Fuera de Horario</div>";
+                    }else{//68
+                        event_type = "<div class='ui green label'>Puerta Abierta</div>";
+                    }
+                }
             }
             body += '<tr>';
             body +=     '<td>'+result[i].x_term_name+'</td>';
             body +=     '<td>'+user+'</td>';
             body +=     '<td>'+event_type+'</td>';
-            body +=     '<td>'+event_datetime_formated+'</td>';
+            body +=     '<td data-order="'+unix_event_datetime+'">'+event_datetime_formated+'</td>';
             body += '</tr>';
         }
         return body;
