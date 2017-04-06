@@ -10,7 +10,7 @@ class Main extends CI_Controller {
     public function index(){
         $dactions = $this->doors_model->getLastActions();
         $data['door_actions'] = $dactions;
-        //$data['settings'] = $this->settings_model->getAllSettings();
+        $data['settings'] = $this->settings_model->getAllSettings();
         $this->load->view('dashboard/main',$data);
     }
     public function getLastActionsAJAX(){

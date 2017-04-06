@@ -7,17 +7,33 @@ var app_url = base+app_name+'/';
 var base_url = protocol+"//"+host+path;
 
 $(document).ready(function() {
+    /**
+     * Default Error Message
+     * @param selector: jQuery Selector
+     * @param msg: Body Message
+     * @param time: Time on show
+     */
     function showErrorMessage(selector,msg,time){
         $(selector).html("<div class=\"ui negative message\"><i class=\"close icon\"></i><div class=\"header\">Error!</div><p>"+msg+"</p></div>");
         $(selector).show(1000).delay(time).fadeOut();
     }
     window.showErrorMessage = showErrorMessage;
+    /**
+     * Default Success Message
+     * @param selector
+     * @param msg
+     * @param time
+     */
     function showSuccessMessage(selector,msg,time){
         $(selector).html("<div class=\"ui success message\"><i class=\"close icon\"></i><div class=\"header\">Éxito!</div><p>"+msg+"</p></div>");
         $(selector).show(1000).delay(time).fadeOut();
     }
     window.showSuccessMessage = showSuccessMessage;
-
+    /**
+     * Create HTML table body to Doors data
+     * @param result
+     * @returns {string}
+     */
     function createDoorsEventsResultBody(result){
         var body = '';
         var tam = result.length;
@@ -66,7 +82,19 @@ $(document).ready(function() {
         return body;
     }
     window.createDoorsEventsResultBody = createDoorsEventsResultBody;
+    /**
+     *
+     * @param data
+     */
+    function createCallsTableBody(data){
 
+    }
+    window.createCallsTableBody = createCallsTableBody;
+    /**
+     * Create a DataTable
+     * @param selector
+     * @returns {*}
+     */
     function createDataTable(selector){
         if(selectorExist(selector)) {
             var table = selector.DataTable({
@@ -80,7 +108,29 @@ $(document).ready(function() {
         return false;
     }
     window.createDataTable = createDataTable;
-
+    /**
+     * Create a default DataTable Object
+     * @param selector jQuery Selector
+     * @param orderArray default Order Array
+     * @returns {*}
+     */
+    function createCallsDataTable(selector,orderArray){
+        if(selectorExist(selector)) {
+            var table = selector.DataTable({
+                "order": orderArray,
+                "language": {
+                    "url": "extras/SpanishDatatable.json"
+                }
+            });
+            return table;
+        }
+        return false;
+    }
+    window.createCallsDataTable = createCallsDataTable;
+    /**
+     * Destroy a single DataTable object
+     * @param table_var
+     */
     function destroyDataTable(table_var){
         table_var.destroy();
     }
@@ -88,7 +138,12 @@ $(document).ready(function() {
         return (selector.length>0);
     }
     window.destroyDataTable = destroyDataTable;
-
+    /**
+     *
+     * @param selector
+     * @param table_var
+     * @returns {*}
+     */
     function reinitialiseDataTable(selector,table_var){
         destroyDataTable(table_var);
         return createDataTable(selector);
@@ -98,13 +153,16 @@ $(document).ready(function() {
     var lastDoorMov = $('#lastDoorMov');
     var lastDoorMovTable = createDataTable(lastDoorMov);
 
+    /**
+     * Update Door events table via AJAX
+     */
     function updateDefaultTable(){
         $.ajax({
             url: app_url+"main/main/getLastActionsAJAX",
             type: "POST",
             dataType: "json",
             success: function(data){
-                console.log(data);
+                // console.log(data);
                 if(data.error === false){
                     destroyDataTable(lastDoorMovTable);
                     var events = createDoorsEventsResultBody(data.events);
@@ -121,4 +179,34 @@ $(document).ready(function() {
     if($("#lastDoorMov").length>0){
         setInterval(updateDefaultTable, 30000);
     }
+
+    var lastCallsTable = $('#lastCallsTable');
+    var lastCallsTableObject = createCallsDataTable(lastCallsTable);
+
+    /**
+     * Update Calls table via AJAX
+     */
+    /*function updateDataCallsTable(){
+        $.ajax({
+            url: app_url+"calls/calls/getLastCallsAJAX",
+            type: "POST",
+            dataType: "json",
+            success: function(data){
+                console.log(data);
+                if(data.error === false){
+                    destroyDataTable(lastCallsTableObject);
+                    var callsBody = createDoorsEventsResultBody(data.events);
+                    $("#lastCallsTableBody").html(callsBody);
+                    lastCallsTableObject = createCallsDataTable(lastCallsTable);
+                }
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+                console.log("Error: " + JSON.stringify(error));
+            }
+        });
+    }
+    if($("#lastCallsTable").length>0){
+        setInterval(updateDataCallsTable, 30000);
+    }*/
 });
