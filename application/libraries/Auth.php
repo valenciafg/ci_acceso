@@ -8,7 +8,7 @@ class Auth{
     private $port = '389';
     private $domain_prefix = 'PLAZAMERU\\';
     private $default_group = 'g_AppMeru';
-    private $base_dn = "DC=PLAZAMERU,DC=com";
+    private $base_dn = "DC=plazameru,DC=com";
 
     public function __construct() {
         $this->CI =& get_instance();
@@ -52,16 +52,16 @@ class Auth{
                 $ldap_conn = $check['source'];
             }
         }
-        $entries = 'pp';
+        $entries = false;
         if($ldap_conn){
             $base_dn = $this->base_dn;
-            $filter = "(&(objectClass=user)(sAMAccountName=".$user.")(memberof=CN=".$group.",".$base_dn."))";
-            return $filter;
-            $search_result = @ldap_search($ldap_conn, $base_dn, $filter);
+            $filter = "(&(objectClass=user)(sAMAccountName=".$user.")(memberOf=CN=".$this->default_group.",OU=Grupos,".$base_dn."))";
+            $justthese = array("memberOf");
+            $search_result = @ldap_search($ldap_conn, $base_dn, $filter, $justthese);
             $entries = @ldap_get_entries($ldap_conn, $search_result);
+            return $entries["count"] > 0;
         }
         return $entries;
-        //$member = $entries["count"] > 0;
     }
     public function ldap_login_check($username,$password,$host,$port,$get=false){
         $user = $this->domain_prefix . $username;
@@ -72,11 +72,14 @@ class Auth{
             if($this->ldap_set_options()){
                 $connected = @ldap_bind($source,$user,$password);
                 if($connected){
-                    return $this->ldap_user_group_check($username,$this->default_group,$source);
-                    if(!$get){
-                        $return = ["error" => false, "msg" => "Usuario Conectado"];
+                    if($this->ldap_user_group_check($username,$this->default_group,$source)){
+                        if(!$get){
+                            $return = ["error" => false, "msg" => "Usuario Conectado"];
+                        }else{
+                            $return = ["error" => false, "msg" => "Usuario Conectado","source"=>$source];
+                        }
                     }else{
-                        $return = ["error" => false, "msg" => "Usuario Conectado","source"=>$source];
+                        $return = ["error" => false, "msg" => "El usuario no tiene acceso a este sistema"];
                     }
                 }else{
                     $return = ["error" => true, "msg" => "No se puede conectar el usuario especificado"];
