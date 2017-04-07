@@ -4,11 +4,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Settings extends CI_Controller {
     public function __construct() {
         parent::__construct();
+        $this->load->library('auth');
         $this->load->model('settings_model');
     }
     public function index(){
         $data['settings'] = $this->settings_model->get_config_row();
         $this->load->view('settings/settings',$data);
+    }
+    public function login(){
+        $this->load->view('settings/login');
+    }
+    public function auth_user_ajax(){
+        $login = $this->input->post('username');
+        $password = $this->input->post('password');
+        $response = $this->auth->login_user($login,$password);
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
     public function saveGeneralAjax(){
         $error = true;

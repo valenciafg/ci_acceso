@@ -5,11 +5,10 @@ class Settings_model extends CI_Model
     public function ___construct()
     {
         parent::___construct();
-        
     }
     public function getAllSettings(){
-    	$this->db->db_select("ControlMeru");
-    	$query = $this->db->get('config');
+        $control_db = $this->load->database('control', TRUE);
+    	$query = $control_db->get('config');
     	$result = $query->result_array();
         return $result;
     }
@@ -26,32 +25,32 @@ class Settings_model extends CI_Model
         return $new;
     }
     public function get_config_value($name,$value){
-        $this->db->db_select("ControlMeru");
-        $this->db->where('configName', $name);
-        $this->db->where('configValue', $value);
-        $query = $this->db->get('config');
+        $control_db = $this->load->database('control', TRUE);
+        $control_db->where('configName', $name);
+        $control_db->where('configValue', $value);
+        $query = $control_db->get('config');
         return ($query->num_rows() > 0 ? $query->row(): FALSE);
     }
     public function get_config_field($name){
-        $this->db->db_select("ControlMeru");
-        $this->db->where('configName', $name);
-        $query = $this->db->get('config');
+        $control_db = $this->load->database('control', TRUE);
+        $control_db->where('configName', $name);
+        $query = $control_db->get('config');
         return ($query->num_rows() > 0 ? $query->row(): FALSE);
     }
 
     public function add_config($data){
-        $this->db->db_select("ControlMeru");
-        $this->db->insert('config', $data);
-        $insert_id = $this->db->insert_id();
+        $control_db = $this->load->database('control', TRUE);
+        $control_db->insert('config', $data);
+        $insert_id = $control_db->insert_id();
         return $insert_id;
     }
 
     public function update_config($configName,$configValue){
-        $this->db->db_select("ControlMeru");
+        $control_db = $this->load->database('control', TRUE);
         $configValue = (empty($configValue)?"":$configValue);
         $data = array('configValue'=>$configValue);
-        $this->db->where('configName', $configName);
-        $result = $this->db->update('config', $data);
+        $control_db->where('configName', $configName);
+        $result = $control_db->update('config', $data);
         return $result;
     }
 
