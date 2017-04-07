@@ -17,7 +17,7 @@ class Settings extends CI_Controller {
     public function auth_user_ajax(){
         $login = $this->input->post('username');
         $password = $this->input->post('password');
-        $response = $this->auth->login_user($login,$password);
+        $response = $this->auth->ldap_login_user($login,$password);
         header('Content-Type: application/json');
         echo json_encode($response);
     }
