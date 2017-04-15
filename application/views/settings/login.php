@@ -38,13 +38,13 @@
 		        	<div class="field">
 		          		<div class="ui left icon input">
 		            		<i class="user icon"></i>
-		            		<input type="text" name="username" placeholder="Account">
+		            		<input type="text" name="username" placeholder="Usuario">
 		          		</div>
 		        	</div>
 		        	<div class="field">
 		          		<div class="ui left icon input">
 		            		<i class="lock icon"></i>
-		           	 		<input type="password" name="password" placeholder="Password">
+		           	 		<input type="password" name="password" placeholder="Contraseña">
 		          		</div>
 		        	</div>
 		        	<div id="login-button" class="ui fluid large primary submit button">Login</div>

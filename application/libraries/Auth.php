@@ -98,6 +98,11 @@ class Auth{
         $check = $this->ldap_login_check($user, $password, $host, $port);
         return $check;
     }
+    public function get_user_profile($user){
+        return array(
+            'username'  => $user
+        );
+    }
     /*
     $base_dn = "DC=YourDomain,DC=com";
 $filter = "(&(objectClass=user)(sAMAccountName=yourUserName)(memberof=CN=YourGroup,OU=Users,DC=YourDomain,DC=com))";

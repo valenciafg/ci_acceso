@@ -14,10 +14,18 @@ class Settings extends CI_Controller {
     public function login(){
         $this->load->view('settings/login');
     }
+    public function logout(){
+        $this->session->sess_destroy();
+        redirect(base_url()."login");
+    }
     public function auth_user_ajax(){
         $login = $this->input->post('username');
         $password = $this->input->post('password');
         $response = $this->auth->ldap_login_user($login,$password);
+        if(!$response['error']){
+            $profile = $this->auth->get_user_profile($login);
+            $this->session->set_userdata($profile);
+        }
         header('Content-Type: application/json');
         echo json_encode($response);
     }
