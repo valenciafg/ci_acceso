@@ -57,5 +57,6 @@ $route['users'] = 'doors/doors/users';
 $route['doors'] = 'doors/doors/doors';
 $route['calendar'] = 'calendar/calendar';
 $route['login'] = 'settings/settings/login';
+$route['logout'] = 'settings/settings/logout';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

@@ -8,6 +8,11 @@ class Settings extends CI_Controller {
         $this->load->model('settings_model');
     }
     public function index(){
+        $profile = $this->session->userdata();
+        if(!$profile || count($profile)<2) {
+            redirect(base_url() . "login");
+            die();
+        }
         $data['settings'] = $this->settings_model->get_config_row();
         $this->load->view('settings/settings',$data);
     }

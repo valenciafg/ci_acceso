@@ -8,14 +8,28 @@ class Doors extends CI_Controller {
     }
     public function index(){
 //        $dactions = $this->doors_model->getLastActions();
+        if(!$profile || count($profile)<2) {
+            redirect(base_url() . "login");
+            die();
+        }
         $data['door_schedule'] = [];
         $this->load->view('doors/schedule',$data);
     }
     public function schedule(){
+        $profile = $this->session->userdata();
+        if(!$profile || count($profile)<2) {
+            redirect(base_url() . "login");
+            die();
+        }
         $data['door_schedule'] = [];
         $this->load->view('doors/schedule',$data);
     }
     public function users(){
+        $profile = $this->session->userdata();
+        if(!$profile || count($profile)<2) {
+            redirect(base_url() . "login");
+            die();
+        }
         $data['door_users'] = $this->doors_model->getUsersWithBadge();
         $this->load->view('doors/users',$data);
     }
@@ -31,6 +45,11 @@ class Doors extends CI_Controller {
         echo json_encode($return);
     }
     public function doors(){
+        $profile = $this->session->userdata();
+        if(!$profile || count($profile)<2) {
+            redirect(base_url() . "login");
+            die();
+        }
         $data['doors'] = $this->doors_model->getTerminals();
         $this->load->view('doors/doors',$data);
     }

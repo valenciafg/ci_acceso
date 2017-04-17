@@ -194,9 +194,7 @@ $(document).ready(function() {
         });
     }
     function login_user(){
-        console.log('se va logear un usuario');
         var login_values = $("#login-form").serialize();
-        //console.log(values);
         $.ajax({
             url: app_url  + "settings/settings/auth_user_ajax",
             type: "POST",
@@ -205,17 +203,14 @@ $(document).ready(function() {
             dataType: "json",
             success: function (response) {
                 console.log("respuesta: " + JSON.stringify(response));
-                /*if (data.result === false) {
-                    $("#login-alert-notification").html("<h4><i class=\"icon fa fa-ban\"></i> Error!</h4><p>" + data.msg + "</p>");
-                    $("#login-alert-notification").show(1000).delay(7000).fadeOut();
-
-                } else {
-                    $("#login-success-notification").html("<h4><i class=\"icon fa fa-check\"></i> Éxito!</h4><p>" + data.msg + "</p>");
-                    $("#login-success-notification").show(1000).delay(2000).fadeOut();
-                    setTimeout(function () {
-                        window.location.href = app_url  + 'main';
-                    }, 4000);
-                }*/
+                if(response.error){
+                    $(".login-message").html("<h4><i class=\"close icon\"></i> Error!</h4><p>"+response.msg+"</p>" );
+                    $(".login-message").show(1000).delay(3000).fadeOut();
+                }else{
+                    //setTimeout(function () {
+                    window.location.href = app_url  + 'main';
+                    //}, 1000);
+                }
             },
             error: function (request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -225,5 +220,10 @@ $(document).ready(function() {
     }
     $('#login-button').click(function(e) {
         login_user();
+    });
+    $('#login-form').submit(function(e){
+        console.log('formulario enviado');
+        login_user();
+        e.preventDefault();
     });
 });

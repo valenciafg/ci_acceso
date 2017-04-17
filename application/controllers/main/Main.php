@@ -8,6 +8,11 @@ class Main extends CI_Controller {
         $this->load->model('settings_model');
     }
     public function index(){
+        $profile = $this->session->userdata();
+        if(!$profile || count($profile)<2) {
+            redirect(base_url() . "login");
+            die();
+        }
         $dactions = $this->doors_model->getLastActions();
         $data['door_actions'] = $dactions;
         $data['settings'] = $this->settings_model->getAllSettings();

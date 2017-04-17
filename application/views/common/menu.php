@@ -19,7 +19,7 @@
         <div class="ui dropdown item item-user">
             Usuario <i class="dropdown icon"></i>
             <div class="menu">
-            <a class="item">Salir</a>
+            <a class="item" href="<?= base_url()."logout";?>">Salir</a>
             </div>
       </div>
     </div>

@@ -6,6 +6,11 @@ class Calendar extends CI_Controller {
         parent::__construct();
     }
     public function index(){
+    	$profile = $this->session->userdata();
+        if(!$profile || count($profile)<2) {
+            redirect(base_url() . "login");
+            die();
+        }
         $this->load->view('calendar/calendar');
     }
 }
