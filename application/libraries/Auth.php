@@ -4,6 +4,7 @@ class Auth{
 
     protected  $CI;
     private $connect;
+    private $profile;
     private $host = '172.24.10.10';
     private $port = '389';
     private $domain_prefix = 'PLAZAMERU\\';
@@ -73,10 +74,11 @@ class Auth{
                 $connected = @ldap_bind($source,$user,$password);
                 if($connected){
                     if($this->ldap_user_group_check($username,$this->default_group,$source)){
+                        $this->profile = $this->search_user_profile_data($source,$username);
                         if(!$get){
-                            $return = ["error" => false, "msg" => "Usuario Conectado"];
+                            $return = ["error" => false, "msg" => "Usuario Conectado",'profile'=>$this->profile];
                         }else{
-                            $return = ["error" => false, "msg" => "Usuario Conectado","source"=>$source];
+                            $return = ["error" => false, "msg" => "Usuario Conectado","source"=>$source,'profile'=>$this->profile];
                         }
                     }else{
                         $return = ["error" => false, "msg" => "El usuario no tiene acceso a este sistema"];
@@ -98,10 +100,16 @@ class Auth{
         $check = $this->ldap_login_check($user, $password, $host, $port);
         return $check;
     }
+    public function search_user_profile_data($ldap_conn,$user){
+        $base_dn = $this->base_dn;
+        $filter = "(&(objectClass=user)(sAMAccountName=".$user.")(memberOf=CN=".$this->default_group.",OU=Grupos,".$base_dn."))";
+        $atributes = array('displayName','description','givenName','name','sAMAccountName','userPrincipalName');
+        $search_result = @ldap_search($ldap_conn, $base_dn, $filter, $atributes);
+        $entries = @ldap_get_entries($ldap_conn, $search_result);
+        return $entries;
+    }
     public function get_user_profile($user){
-        return array(
-            'username'  => $user
-        );
+        return array('user'=>$user);
     }
     /*
     $base_dn = "DC=YourDomain,DC=com";
