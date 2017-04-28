@@ -55,6 +55,7 @@ $route['settings'] = 'settings/settings';
 $route['schedule'] = 'doors/doors/schedule';
 $route['users'] = 'doors/doors/users';
 $route['doors'] = 'doors/doors/doors';
+$route['permission'] = 'doors/doors/permission';
 $route['calendar'] = 'calendar/calendar';
 $route['login'] = 'settings/settings/login';
 $route['logout'] = 'settings/settings/logout';

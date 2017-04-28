@@ -51,6 +51,11 @@ class Doors_model extends CI_Model
         $result = $query->result_array();
         return $result;
     }
+    /**
+     * get doors that user can access
+     * @param  [string] $guid [user badge encoded ID]
+     * @return [array]       [Door array]
+     */
     public function getUsersTerminalGrants($guid){
         $groups = [];
         $this->db->select('bs.*');
@@ -112,7 +117,70 @@ class Doors_model extends CI_Model
 
         return $access_door;
     }
-
+    /**
+     * get user who can open a door
+     * @param  [integer] $door_id [unique door identification key]
+     * @return [array]          [Users array]
+     */
+    public function getTerminalsUsersCanAccess($door_id){
+        $this->db->select('agt.agt_ag_id');
+        $this->db->from('accgrpterm as agt');
+        $this->db->where('agt.agt_term_id', $door_id);
+        $query = $this->db->get();
+        $access_groups = $query->result_array();
+        $groups = array();
+        foreach ($access_groups as $group) {
+            $groups[] = $group['agt_ag_id'];
+        }
+        $this->db->select('bs.bs_b_guid');
+        $this->db->from('badgesite as bs');
+        $this->db->where_in('bs.bs_access_grp_0', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_1', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_2', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_3', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_4', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_5', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_6', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_7', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_8', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_9', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_10', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_11', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_12', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_13', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_14', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_15', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_16', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_17', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_18', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_19', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_20', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_21', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_22', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_23', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_24', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_25', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_26', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_27', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_28', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_29', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_30', $groups);
+        $this->db->or_where_in('bs.bs_access_grp_31', $groups);
+        $query = $this->db->get();
+        $badges = $query->result_array();
+        $badges_guid = array();
+        foreach ($badges as $badge) {
+            $badges_guid[] = $badge['bs_b_guid'];
+        }
+        $this->db->select('ch.c_id, ch.c_lname, ch.c_fname, ch.c_dept_id, ch.c_guid, ch.c_s_timestamp, d.dept_name');
+        $this->db->from('cardholder as ch');
+        $this->db->join('badge as b', 'b.b_cardholder_id = ch.c_id');
+        $this->db->join('dept as d', 'ch.c_dept_id = d.dept_id','left');
+        $this->db->where_in('b.b_guid', $badges_guid);
+        $query = $this->db->get();
+        $cardholders = $query->result_array();
+        return $cardholders;
+    }
     public function getDoorMovByUserAndAccess($cardholder_id,$term_name){
             $this->db->select('x.x_hist_type,x.x_panel_name,x_term_name,x.x_fname,x.x_lname,x.x_timestamp,x.x_badge_number,b.b_number_str,b.b_cardholder_id,b.b_description,c.c_lname,c.c_fname');
             $this->db->limit(50);

@@ -11,6 +11,7 @@
             <a class="<?= ($item=='users'?'active ':'')?>item" href="<?= base_url().'users';?>">Usuarios</a>
             <a class="<?= ($item=='doors'?'active ':'')?>item" href="<?= base_url().'doors';?>">Puertas</a>
             <a class="<?= ($item=='schedule'?'active ':'')?>item" href="<?= base_url().'schedule';?>">Horarios</a>
+            <a class="<?= ($item=='permission'?'active ':'')?>item" href="<?= base_url().'permission';?>">Permisos</a>
         </div>
     </div>
     <a class="<?= ($item=='calendar'?'active ':'')?>item" href="<?=base_url().'calendar';?>">Calendario</a>

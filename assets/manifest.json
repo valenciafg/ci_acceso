@@ -58,7 +58,8 @@
 			"files": [
 				"scripts/schedule.js",
 				"scripts/users.js",
-				"scripts/doors.js"
+				"scripts/doors.js",
+				"scripts/permissions.js"
 			]
 		}
   },

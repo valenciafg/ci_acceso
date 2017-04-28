@@ -7,7 +7,6 @@ class Doors extends CI_Controller {
         $this->load->model('doors_model');
     }
     public function index(){
-//        $dactions = $this->doors_model->getLastActions();
         if(!$profile || count($profile)<2) {
             redirect(base_url() . "login");
             die();
@@ -23,6 +22,28 @@ class Doors extends CI_Controller {
         }
         $data['door_schedule'] = [];
         $this->load->view('doors/schedule',$data);
+    }
+    public function permission(){
+        $profile = $this->session->userdata();
+        if(!$profile || count($profile)<2) {
+            redirect(base_url() . "login");
+            die();
+        }
+        $data['doors'] = $this->doors_model->getTerminals();
+        $this->load->view('doors/permission',$data);
+    }
+    public function getDoorPermissionsAjax(){
+        $id = $this->input->post('id');
+        $guid = $this->input->post('guid');        
+        $error = true;
+        $msg = '';
+        $users = $this->doors_model->getTerminalsUsersCanAccess($id);
+        if(!empty($users)){
+            $error = false;
+        }
+        $return = array('error'=>$error,'msg'=>$msg,"users"=>$users);
+        header('Content-Type: application/json');
+        echo json_encode($return);
     }
     public function users(){
         $profile = $this->session->userdata();
