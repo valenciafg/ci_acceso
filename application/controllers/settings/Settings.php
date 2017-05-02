@@ -60,4 +60,12 @@ class Settings extends CI_Controller {
         header('Content-Type: application/json');
         echo json_encode(['error'=>$error,'msg'=>$msg]);
     }
+    public function getGeneralUpdateTimeAjax(){
+        $data = [];
+        $config = $this->settings_model->get_config_field('general_update_time');
+        if($config)
+            $data = ['time'=> $config->configValue];
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
 }

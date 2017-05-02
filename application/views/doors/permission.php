@@ -10,14 +10,14 @@
             <?php $this->load->view('doors/permission-form',['doors'=>$doors]);?>
             <!-- Door permission results -->
             <div class="ten wide column">
-                <div id="door-result-message"></div><br/>
-                <div id="door-result-loading" style="display: none;">
+                <div id="permission-result-message"></div><br/>
+                <div id="permission-result-loading" style="display: none;">
                     <div class="ui active inverted dimmer">
                         <div class="ui text loader">Cargando</div>
                     </div>
                     <p></p>
                 </div>
-                <div id="door-result-list" style="display: none;">
+                <div id="permission-result-list" style="display: none;">
                     <?php $this->load->view('doors/permission-result-list');?>
                 </div>
             </div>

@@ -6,6 +6,8 @@
     <tr>
         <th>Nombre</th>
         <th>Apellido</th>
+        <th>Departamento</th>
+        <th>Fecha de Creación</th>
     </tr>
     </thead>
     <tbody id="permission-result-list-body">

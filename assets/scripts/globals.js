@@ -86,10 +86,34 @@ $(document).ready(function() {
      *
      * @param data
      */
-    function createCallsTableBody(data){
-
+    function createPermissionTableBody(data){
+        var body = '';
+        var tam = data.length;
+        var created_datetime;
+        var unix_created_datetime;
+        var created_datetime_formated;
+        var fname;
+        var lname;
+        var department;
+        for (var i = 0; i < tam; i++) {
+            created_datetime = moment(data[i].c_s_timestamp);
+            unix_created_datetime = created_datetime.unix();
+            created_datetime_formated = created_datetime.format('DD/MM/YYYY');
+            fname = data[i].c_fname;
+            lname = data[i].c_lname;
+            department = data[i].dept_name;
+            if(department === null)
+                department = 'Sin asignar';
+            body += '<tr>';
+            body +=     '<td>'+fname+'</td>';
+            body +=     '<td>'+lname+'</td>';
+            body +=     '<td>'+department+'</td>';
+            body +=     '<td data-order="'+unix_created_datetime+'">'+created_datetime_formated+'</td>';
+            body += '</tr>';
+        }
+        return body;
     }
-    window.createCallsTableBody = createCallsTableBody;
+    window.createPermissionTableBody = createPermissionTableBody;
     /**
      * Create a DataTable
      * @param selector
@@ -150,6 +174,24 @@ $(document).ready(function() {
     }
     window.reinitialiseDataTable = reinitialiseDataTable;
 
+    /**
+     * get the time to resfresh last move table
+     */
+     function getGeneralUpdateTime(callback){
+         $.ajax({
+             url: app_url + "settings/settings/getGeneralUpdateTimeAjax",
+             type: "POST",
+             dataType: "json",
+             async: false,
+             success: function(response){callback(response.time);},
+             error: function(request, error) { callback(30);}
+         });
+     }
+     window.getGeneralUpdateTime = getGeneralUpdateTime;
+     var generalRefreshTime = 30000;
+     getGeneralUpdateTime(function(response){
+         generalRefreshTime = response * 1000;
+     });
     var lastDoorMov = $('#lastDoorMov');
     var lastDoorMovTable = createDataTable(lastDoorMov);
 
@@ -177,36 +219,7 @@ $(document).ready(function() {
         });
     }
     if($("#lastDoorMov").length>0){
-        setInterval(updateDefaultTable, 30000);
+        setInterval(updateDefaultTable, generalRefreshTime);
     }
-
-    var lastCallsTable = $('#lastCallsTable');
-    var lastCallsTableObject = createCallsDataTable(lastCallsTable);
-
-    /**
-     * Update Calls table via AJAX
-     */
-    /*function updateDataCallsTable(){
-        $.ajax({
-            url: app_url+"calls/calls/getLastCallsAJAX",
-            type: "POST",
-            dataType: "json",
-            success: function(data){
-                console.log(data);
-                if(data.error === false){
-                    destroyDataTable(lastCallsTableObject);
-                    var callsBody = createDoorsEventsResultBody(data.events);
-                    $("#lastCallsTableBody").html(callsBody);
-                    lastCallsTableObject = createCallsDataTable(lastCallsTable);
-                }
-            },
-            error: function(request, error) {
-                console.log("Request: " + JSON.stringify(request));
-                console.log("Error: " + JSON.stringify(error));
-            }
-        });
-    }
-    if($("#lastCallsTable").length>0){
-        setInterval(updateDataCallsTable, 30000);
-    }*/
+    
 });

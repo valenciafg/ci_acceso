@@ -8,14 +8,14 @@
 ?>
 <div id="general-settings" class="ui bottom attached tab segment active" data-tab="tab-general">
 	<form id="general-settings-form" class="ui form">
-		<h4 class="ui dividing header">Configuración General de la Aplicación</h4>
+		<h4 class="ui dividing header">Configuración Página Principal</h4>
 		<div class="fields">
-			<div class="field">
+			<!--<div class="field">
 				<div class="ui checkbox <?=$general_update_time_active;?>">
 					<input type="checkbox" name="general_update_time_active">
 					<label>Activar tiempo de actualización para todos los modulos</label>
 				</div>
-			</div>
+			</div>-->
 			<div class="field">
 				<label>Tiempo de actualización (Segundos)</label>
 				<div class="ui input corner labeled">

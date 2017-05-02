@@ -132,6 +132,8 @@ class Doors_model extends CI_Model
         foreach ($access_groups as $group) {
             $groups[] = $group['agt_ag_id'];
         }
+        if(empty($groups))
+            return $groups;
         $this->db->select('bs.bs_b_guid');
         $this->db->from('badgesite as bs');
         $this->db->where_in('bs.bs_access_grp_0', $groups);

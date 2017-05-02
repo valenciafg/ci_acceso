@@ -9,10 +9,10 @@
 		<div id="setting-positive-msg"></div>
     	<div class="ui top attached tabular menu settings">
     		<div class="item active" data-tab="tab-general">General</div>
-    		<div class="item" data-tab="tab-doors">Control de Puertas</div>
+    		<!--<div class="item" data-tab="tab-doors">Control de Puertas</div>-->
     	</div>
     	<?php $this->load->view('settings/general_tab');?>
-    	<?php $this->load->view('settings/doors_tab');?>
+    	<!--<?php $this->load->view('settings/doors_tab');?>-->
 	</div>
 </div>
 
