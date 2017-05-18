@@ -75,12 +75,14 @@ class Doors extends CI_Controller {
         $this->load->view('doors/doors',$data);
     }
     public function searchEventsBySchedule(){
+        $events = array();
         $today = date('m-d-Y');
         $first = '00:00:00';
         $end = '23:59:59';
         $error = true;
         $msg = '';
         $start_date = $this->input->post('start_date');
+        $aux = $start_date;
         if(!empty($start_date)){
             $start_date = date("m-d-Y", strtotime($start_date));
         }else{
@@ -107,14 +109,43 @@ class Doors extends CI_Controller {
             $end_time = $end;
         }
         $end = $end_date.' '.$end_time;
-
-        $events = $this->doors_model->getEventsBySchedule($start,$end);
-        if(!empty($events)){
-            $error = false;
+        
+        $start_timestamp = \DateTime::createFromFormat('m-d-Y H:i:s', $start)->getTimestamp();
+        $end_timestamp = \DateTime::createFromFormat('m-d-Y H:i:s', $end)->getTimestamp();
+        $a_month_ago = date('m-d-Y',strtotime('-1 month')).' '.$first;
+        $a_month_ago = \DateTime::createFromFormat('m-d-Y H:i:s', $a_month_ago)->getTimestamp();
+        $query = '';
+        if($start_timestamp > $end_timestamp){
+            $events = array();
+            $msg = 'La fecha/hora de inicio no puede ser mayor a la fecha/hora final';
         }else{
-            $msg = "Búsqueda sin resultados";
+            if($start_timestamp < $a_month_ago){
+                $events = $this->doors_model->getEventsByScheduleHistoric($start_timestamp, $end_timestamp);               
+                if(!empty($events)){
+                    $error = false;
+                }else{
+                    $msg = "Búsqueda sin resultados";
+                }
+            }else{
+                $events = $this->doors_model->getEventsBySchedule($start,$end);
+                if(!empty($events)){
+                    $error = false;
+                }else{
+                    $msg = "Búsqueda sin resultados";
+                }
+            }            
         }
-        $return = array('error'=>$error,'msg'=>$msg,"events"=>$events);
+        $return = array(
+            'error'=>$error,
+            'msg'=>$msg,
+            "events"=>$events,
+            'original_start'=>$start,
+            'original_end'=>$end,
+            'unix_start'=> $start_timestamp,
+            'unix_end'=> $end_timestamp,
+            'back_start' => date('m-d-Y H:i:s',$start_timestamp),
+            'back_end' => date('m-d-Y H:i:s',$end_timestamp)
+        );
         header('Content-Type: application/json');
         echo json_encode($return);
     }

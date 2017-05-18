@@ -43,6 +43,22 @@ class Doors_model extends CI_Model
         $result = $query->result_array();
         return $result;
     }
+    public function getEventsByScheduleHistoric($start,$end){
+        $sql = "select
+	                x.x_hist_type,x.x_panel_name,x_term_name,x.x_fname,x.x_lname,x.x_timestamp,x.x_badge_number,b.b_number_str,b.b_cardholder_id,b.b_description,c.c_lname,c.c_fname
+                from xaction as x
+                join [controlserver].[Pegasys].dbo.badge as b on b.b_number_str = x.x_badge_number COLLATE SQL_Latin1_General_CP1_CI_AS 
+                join [controlserver].[Pegasys].dbo.cardholder as c on b.b_cardholder_id = c.c_id
+                where 
+                    x.x_hist_type in (35,68,33,37)
+                    and DATEDIFF(second,{d '1970-01-01'},x.x_timestamp) >= ".$start."
+                    and DATEDIFF(second,{d '1970-01-01'},x.x_timestamp) <= ".$end."
+                order by x.x_timestamp DESC";
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;      
+    }
+
     public function getUsersWithBadge(){
         $this->db->select('c.c_id,c.c_fname,c.c_lname,b.b_number_str,b.b_guid');
         $this->db->from('cardholder as c');

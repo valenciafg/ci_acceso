@@ -4,7 +4,7 @@ $(document).ready(function() {
     var main_schedule_form = "";
     var do_again = 0;
     function searchScheduleAJAX(){
-        // console.log("asd");
+        console.log("datos a enviar",main_schedule_form);
         $.ajax({
             url: app_url+"doors/doors/searchEventsBySchedule",
             type: "POST",
@@ -14,6 +14,8 @@ $(document).ready(function() {
                 $("#schedule-loading").show();
             },
             success: function(data){
+                console.log('lo reciibdo es',data);
+                
                 $("#schedule-loading").hide(1000);
                 if (data.error===true) {
                     showErrorMessage('#schedule-message',data.msg,5000);
@@ -23,11 +25,8 @@ $(document).ready(function() {
                     $("#schedule-result-list-body").html(events);
                     scheduleTable = createDataTable(scheduleSelector);
                     $("#schedule-result-list").show();
-                    if(do_again < 1) {
-                        do_again = 1;
-                        setInterval(searchScheduleAJAX, 20000);
-                    }
                 }
+                
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
