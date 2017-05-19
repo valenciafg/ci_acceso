@@ -77,74 +77,72 @@ class Doors extends CI_Controller {
     public function searchEventsBySchedule(){
         $events = array();
         $today = date('m-d-Y');
+        $today_formated = date('Ymd');
         $first = '00:00:00';
         $end = '23:59:59';
         $error = true;
         $msg = '';
-        $start_date = $this->input->post('start_date');
-        $aux = $start_date;
-        if(!empty($start_date)){
-            $start_date = date("m-d-Y", strtotime($start_date));
+        $input_start_date = $this->input->post('start_date');
+        //Start Date
+        if(!empty($input_start_date)){
+            $start_date = date("m-d-Y", strtotime($input_start_date));
+            $start_date_formated = date("Ymd", strtotime($input_start_date));
         }else{
             $start_date = $today;
+            $start_date_formated = $today_formated;
         }
+        //Start Time
         $start_time = $this->input->post('start_time');
         if(!empty($start_time)){
             $start_time = date("H:i:s", strtotime($start_time));
         }else{
             $start_time = $first;
         }
-        $start = $start_date.' '.$start_time;
-
-        $end_date = $this->input->post('end_date');
-        if(!empty($end_date)){
-            $end_date = date("m-d-Y", strtotime($end_date));
+        //End Date
+        $input_end_date = $this->input->post('end_date');
+        if(!empty($input_end_date)){
+            $end_date = date("m-d-Y", strtotime($input_end_date));
+            $end_date_formated = date("Ymd", strtotime($input_end_date));
         }else{
             $end_date = $today;
+            $end_date_formated = $today_formated;
         }
+        //End Time
         $end_time = $this->input->post('end_time');
         if(!empty($end_time)){
             $end_time = date("H:i:s", strtotime($end_time));
         }else{
             $end_time = $end;
         }
-        $end = $end_date.' '.$end_time;
-        
+        $start = $start_date .' '. $start_time;
+        $start_formated = $start_date_formated .' '. $start_time;
+        $end = $end_date .' '. $end_time;
+        $end_formated = $end_date_formated .' '. $end_time;
+
         $start_timestamp = \DateTime::createFromFormat('m-d-Y H:i:s', $start)->getTimestamp();
         $end_timestamp = \DateTime::createFromFormat('m-d-Y H:i:s', $end)->getTimestamp();
         $a_month_ago = date('m-d-Y',strtotime('-1 month')).' '.$first;
         $a_month_ago = \DateTime::createFromFormat('m-d-Y H:i:s', $a_month_ago)->getTimestamp();
-        $query = '';
+        
         if($start_timestamp > $end_timestamp){
             $events = array();
             $msg = 'La fecha/hora de inicio no puede ser mayor a la fecha/hora final';
-        }else{
+        }else{            
             if($start_timestamp < $a_month_ago){
-                $events = $this->doors_model->getEventsByScheduleHistoric($start_timestamp, $end_timestamp);               
-                if(!empty($events)){
-                    $error = false;
-                }else{
-                    $msg = "Búsqueda sin resultados";
-                }
+                $events = $this->doors_model->getEventsByScheduleHistoric($start_formated, $end_formated);
             }else{
                 $events = $this->doors_model->getEventsBySchedule($start,$end);
-                if(!empty($events)){
+            }
+            if(!empty($events)){
                     $error = false;
                 }else{
                     $msg = "Búsqueda sin resultados";
                 }
-            }            
         }
         $return = array(
             'error'=>$error,
             'msg'=>$msg,
-            "events"=>$events,
-            'original_start'=>$start,
-            'original_end'=>$end,
-            'unix_start'=> $start_timestamp,
-            'unix_end'=> $end_timestamp,
-            'back_start' => date('m-d-Y H:i:s',$start_timestamp),
-            'back_end' => date('m-d-Y H:i:s',$end_timestamp)
+            "events"=>$events
         );
         header('Content-Type: application/json');
         echo json_encode($return);

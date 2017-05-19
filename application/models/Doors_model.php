@@ -51,10 +51,11 @@ class Doors_model extends CI_Model
                 join [controlserver].[Pegasys].dbo.cardholder as c on b.b_cardholder_id = c.c_id
                 where 
                     x.x_hist_type in (35,68,33,37)
-                    and DATEDIFF(second,{d '1970-01-01'},x.x_timestamp) >= ".$start."
-                    and DATEDIFF(second,{d '1970-01-01'},x.x_timestamp) <= ".$end."
+                    and x.x_timestamp >= '".$start."'
+                    and x.x_timestamp <= '".$end."'
                 order by x.x_timestamp DESC";
-        $query = $this->db->query($sql);
+        $control_db = $this->load->database('control', TRUE);
+        $query = $control_db->query($sql);
         $result = $query->result_array();
         return $result;      
     }

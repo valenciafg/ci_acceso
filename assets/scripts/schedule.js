@@ -14,7 +14,7 @@ $(document).ready(function() {
                 $("#schedule-loading").show();
             },
             success: function(data){
-                console.log('lo reciibdo es',data);
+                // console.log('lo reciibdo es',data);
                 
                 $("#schedule-loading").hide(1000);
                 if (data.error===true) {
@@ -26,7 +26,6 @@ $(document).ready(function() {
                     scheduleTable = createDataTable(scheduleSelector);
                     $("#schedule-result-list").show();
                 }
-                
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
