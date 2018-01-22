@@ -1,10 +1,12 @@
 {
-  "name": "dokument2",
+  "name": "acceso_puertas",
   "version": "1.0.0",
   "description": "document management application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp",
+    "scripts": "gulp scripts"
   },
   "repository": {
     "type": "git",

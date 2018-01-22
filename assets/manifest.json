@@ -59,7 +59,9 @@
 				"scripts/schedule.js",
 				"scripts/users.js",
 				"scripts/doors.js",
-				"scripts/permissions.js"
+				"scripts/permissions.js",
+				"scripts/footprint.js",
+				"scripts/rooms.js"
 			]
 		}
   },
