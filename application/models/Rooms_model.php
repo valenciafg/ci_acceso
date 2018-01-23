@@ -54,6 +54,31 @@ class Rooms_model extends CI_Model
         $insert_id = $meru_db->insert_id();
         return $insert_id;
     }
+    public function updateEventType($args){
+        $meru_db = $this->load->database('meru', TRUE);
+        $data = [
+            'eventCode' => $args['eventCode'],
+            'description' => $args['description'],
+            'clasification' => $args['clasification'],
+            'department' => $args['department'],
+            'editUser' => $args['editUser'],
+            'editDate' => $args['editDate']
+        ];
+        $meru_db->where('id', $args['id']);
+        $result = $meru_db->update('RoomEventType', $data);
+        return $result;
+    }
+    public function getEvenTypeData($args = []){
+        $meru_db = $this->load->database('meru', TRUE);
+        $sql = "SELECT ret.* FROM RoomEventType ret
+        WHERE 1 = 1 ";
+        if(!empty($args)){
+            $sql .= isset($args['id'])?" AND ret.id = ".$args['id']:"";
+        }
+        $query = $meru_db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
     /**
      * Rooms section
      */
@@ -112,6 +137,35 @@ class Rooms_model extends CI_Model
 
         }
         $meru_db = $this->load->database('meru', TRUE);
+        $query = $meru_db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+    /**
+     * Seccion room events
+     */
+    public function getRoomEvents($args = []){
+        $meru_db = $this->load->database('meru', TRUE);
+        $sql = "SELECT 
+        re.*, 
+        ret.description as Type, 
+        retc.description as clasification, 
+        ret.department,
+        dp.DEPARTMENT_NAME, 
+        ro.alias, 
+        ro.name
+        FROM RoomEvent re
+        LEFT JOIN RoomEventType ret ON re.eventCode = ret.eventCode
+        LEFT JOIN RoomEventTypeClasification retc ON retc.id = ret.clasification
+        LEFT JOIN [MAINSERVER\EASYCLOCKING].[SekureTime].dbo.DEPARTMENT AS dp ON dp.DEPARTMENT_CODE = ret.department
+        LEFT JOIN RoomOperator ro ON ro.code = re.operatorCode
+        WHERE 1 = 1 ";
+        if(!empty($args)){
+            $sql .= isset($args['start']) && isset($args['start']) ? " AND re.regDate BETWEEN '".$args['start']."' AND '".$args['end']."' " : "";
+            $sql .= isset($args['room'])?" AND re.roomExtension = '".$args['room']."' ":"";
+            $sql .= isset($args['operator'])?" AND re.operatorCode = '".$args['operator']."' ":"";
+        }
+        $sql .= " ORDER BY re.regDate DESC";
         $query = $meru_db->query($sql);
         $result = $query->result_array();
         return $result;

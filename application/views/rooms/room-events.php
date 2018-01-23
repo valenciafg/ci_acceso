@@ -5,7 +5,7 @@
     ?>
 
     <div class="ui vertical segment container first-segment">
-        <?php $this->load->view('rooms/room-event-form',['clasifications'=>$clasifications]);?>
+        <?php $this->load->view('rooms/room-event-form',['rooms'=>$rooms,'operators'=>$operators]);?>
     </div>
     <div class="ui basic vertical segment container">
         <div id="room-event-message" style="display: none;">
@@ -17,7 +17,7 @@
         </div>
         <p></p>
     </div>
-    <div id="room-event-list" class="ui basic vertical segment container" style="display: none;">
+    <div id="room-event-list" class="ui basic vertical segment" style="display: none;">
         <?php $this->load->view('rooms/room-event-list');?>
     </div>
 </div>

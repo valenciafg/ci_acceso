@@ -95,6 +95,48 @@ class Rooms extends CI_Controller {
             return $response;
         }
     }
+    public function saveEditEventTypeData(){
+        $profile = $this->session->userdata();
+        $returnAjax = $this->input->post('returnAjax');
+        $id = $this->input->post('eet_id');
+        $codigo = $this->input->post('eet_codigo');
+        $descripcion = $this->input->post('eet_description');
+        $clasificacion = $this->input->post('eet_clasification');
+        $departamento = $this->input->post('eet_departament');
+        $args = [
+            'id' => $id,
+            'eventCode' => $codigo,
+            'description' => $descripcion,
+            'clasification' => $clasificacion,
+            'department' => $departamento,
+            'editUser' => $profile['user'],
+            'editDate' => date('Y-m-d H:i:s')
+        ];
+        $response = $this->rooms_model->updateEventType($args);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
+    }
+    public function getEvenTypeData(){
+        $event = $this->input->post('event');
+        $returnAjax = $this->input->post('returnAjax');
+        $args = [
+            'id' => $event
+        ];
+        $response = $this->rooms_model->getEvenTypeData($args);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
+    }
+    /**
+     * Room status section
+     */
     public function roomstatus(){
         $profile = $this->session->userdata();
         if(!$profile || count($profile)<2) {
@@ -104,15 +146,43 @@ class Rooms extends CI_Controller {
         $data['rooms'] = $this->rooms_model->getRoomStatus();
         $this->load->view('rooms/room-status',$data);
     }
+    /**
+     * Room events seciton
+     */
     public function roomevents(){
         $profile = $this->session->userdata();
         if(!$profile || count($profile)<2) {
             redirect(base_url() . "login");
             die();
         }
-        $data['clasifications'] = $this->rooms_model->getRoomEventTypeClasification();
+        // $data['clasifications'] = $this->rooms_model->getRoomEventTypeClasification();
+        $data['operators'] = $this->rooms_model->getOperators();
         $data['rooms'] = $this->rooms_model->getRoom();
         $data['events'] = [];//$this->rooms_model->getRoomStatus();
         $this->load->view('rooms/room-events',$data);
+    }
+    public function searchroomevents(){
+        $returnAjax = $this->input->post('returnAjax');
+        $start = $this->input->post('start');
+        $end = $this->input->post('end');
+        $room = $this->input->post('room');
+        $operator = $this->input->post('operator');
+        $args = [
+            'start' => $start,
+            'end' => $end
+        ];
+        if($room !== null && $room !== ''){
+            $args['room'] = $room;
+        }
+        if($operator !== null && $operator !== ''){
+            $args['operator'] = $operator;
+        }
+        $response = $this->rooms_model->getRoomEvents($args);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
     }
 }

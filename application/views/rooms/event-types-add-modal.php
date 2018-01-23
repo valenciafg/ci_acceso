@@ -14,7 +14,12 @@
 			<div class="fields">
 				<div class="six wide field">
 					<label>Descripcion</label>
-					<input type="text" name="aet_description" value="">
+					<div class="ui right labeled input">
+						<input type="text" name="aet_description" id="aet_description" value="" maxlength="38">
+						<div id="add-counter-value" class="ui basic label">
+							38
+  						</div>
+					</div>
 				</div>
                 <div class="six wide field">
 					<label>Clasificacion</label>

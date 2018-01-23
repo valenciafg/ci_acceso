@@ -4,7 +4,7 @@
     $this->load->view('common/menu',['item'=>'roomstatus']);
     // var_dump($rooms);
     ?>
-    <div class="ui vertical segment container first-segment">
+    <div class="ui vertical segment first-segment">
         <?php $this->load->view('rooms/room-status-list',['rooms'=>$rooms]);?>
     </div>
 </div>

@@ -4,17 +4,22 @@
 		Editar Tipo de Evento
 	</div>
 	<div class="content">
-		<form id="add-event-type-form" class="ui form">
+		<form id="edit-event-type-form" class="ui form">
+			<input type="hidden" name="eet_id" value=""/>
 			<div class="two wide field">
 				<label>Codigo</label>
-				<div class="ui input">
-					<input type="text" name="eet_codigo" value="">
+				<div class="ui input disabled">
+					<input type="text" name="eet_codigo" value="" readonly>
 				</div>
 			</div>
 			<div class="fields">
 				<div class="six wide field">
 					<label>Descripcion</label>
-					<input type="text" name="eet_description" value="">
+					<div class="ui right labeled input">
+						<input type="text" name="eet_description" id="eet_description" value="" maxlength="38">
+						<div id="counter-value" class="ui basic label">
+  						</div>
+					</div>
 				</div>
                 <div class="six wide field">
 					<label>Clasificacion</label>

@@ -5,7 +5,15 @@
             <div class="ui calendar start-date">
                 <div class="ui input left icon">
                     <i class="calendar icon"></i>
-                    <input id="start_date" name="start_date" type="text" placeholder="Fecha Inicio">
+                    <input id="sevent_start_date" name="sevent_start_date" type="text" placeholder="Fecha Inicio" value="<?= date('d-m-Y');?>">
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui calendar start-time">
+                <div class="ui input left icon">
+                    <i class="hourglass empty icon"></i>
+                    <input id="sevent_start_time" name="sevent_start_time" type="text" placeholder="Hora Inicio" value="0:00">
                 </div>
             </div>
         </div>
@@ -13,7 +21,15 @@
             <div class="ui calendar end-date">
                 <div class="ui input left icon">
                     <i class="calendar icon"></i>
-                    <input id="end_date" name="end_date" type="text" placeholder="Fecha Fin">
+                    <input id="sevent_end_date" name="sevent_end_date" type="text" placeholder="Fecha Fin" value="<?= date('d-m-Y');?>">
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui calendar end-time">
+                <div class="ui input left icon">
+                    <i class="hourglass full icon"></i>
+                    <input id="sevent_end_time" name="sevent_end_time" type="text" placeholder="Hora Inicio" value="23:59">
                 </div>
             </div>
         </div>
@@ -30,12 +46,12 @@
             </select>
         </div>
         <div class="field">
-            <select class="ui search dropdown" id="sfootprint-department" name="sfootprint-department">
-                <option value="">- Clasificacion -</option>
+            <select class="ui search dropdown" id="sevent-operators" name="sevent-operators">
+                <option value="">- Personal -</option>
                 <?php 
-                foreach($clasifications as $cl):
+                foreach($operators as $op):
                 ?>
-                <option value="<?= $cl['id'];?>"><?= $cl['description'];?></option>
+                <option value="<?= $op['code'];?>"><?= $op['alias'];?></option>
                 <?php 
                 endforeach;
                 ?>
