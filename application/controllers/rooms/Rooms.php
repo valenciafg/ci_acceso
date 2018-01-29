@@ -156,6 +156,22 @@ class Rooms extends CI_Controller {
         $data['rooms'] = $this->rooms_model->getRoomStatus();
         $this->load->view('rooms/room-status',$data);
     }
+    public function roomStatusScheduledTask(){
+        $rooms = $this->rooms_model->getRoomStatus(['availabilityCode'=>5]);
+        $sw = false;
+        foreach ($rooms as $r) {
+            $data = [
+                'roomExtension' => $r['PhoneNumber'],
+                'roomName' => $r['roomNameCentral'],
+                'eventCode' => '105',
+                'operatorCode' => '35'
+            ];
+            $this->rooms_model->getRoomStatus($data);
+            $sw = true;
+        }
+        header('Content-Type: application/json');
+        echo json_encode($sw);
+    }
     /**
      * Room events seciton
      */

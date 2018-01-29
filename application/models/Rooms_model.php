@@ -135,11 +135,17 @@ class Rooms_model extends CI_Model
         WHERE 1 = 1
         AND pd.IsRoom = 1 ";
         if(!empty($args)){
-
+            $sql .= isset($args['availabilityCode'])?" AND ret.availability = ".$args['availabilityCode']." ":"";
         }
         $query = $meru_db->query($sql);
         $result = $query->result_array();
         return $result;
+    }
+    public function insertRoomEvent($data = []){
+        $meru_db = $this->load->database('meru', TRUE);
+        $meru_db->insert('RoomEvent', $data);
+        $insert_id = $meru_db->insert_id();
+        return $insert_id;
     }
     public function getRoomEventTypeClasification($args = []){
         $sql = "SELECT * FROM RoomEventTypeClasification WHERE 1 = 1";
