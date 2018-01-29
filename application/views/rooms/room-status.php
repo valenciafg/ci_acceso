@@ -7,7 +7,12 @@
     <div class="ui vertical segment first-segment">
         <?php $this->load->view('rooms/room-status-list',['rooms'=>$rooms]);?>
     </div>
-
+    <div id="upScrollToTop">
+        <i class="fa fa-2x fa-arrow-circle-o-up" aria-hidden="true"></i>
+    </div>
+    <div id="upScrollToDown">
+        <i class="fa fa-2x fa-arrow-circle-o-down" aria-hidden="true"></i>
+    </div>
 
 <?php $this->load->view('common/footer');?>
 <script src="dist/scripts/jquery.js" type="text/javascript"></script>

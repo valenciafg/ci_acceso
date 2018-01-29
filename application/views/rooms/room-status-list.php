@@ -1,12 +1,13 @@
-<h2 class="ui header">
+<h2 class="ui header up-header">
     Estatus de Habitaciones
 </h2>
 <?php 
 if(!empty($rooms)){
-// var_dump($rooms);
-    $group = true;
-    $piso = '';
+    $open = false;
+    $j = 0;
+    $piso_anterior = '';
     for($i = 0; $i < count($rooms); $i++){
+        $piso_actual = $rooms[$i]['Location'];
         $availabilityClass = 'negro';
         if($rooms[$i]['availabilityCode'] !== null){
             $availabilityCode = $rooms[$i]['availabilityCode'];
@@ -63,8 +64,12 @@ if(!empty($rooms)){
         $iconClass = 'fa-bed';
         if($rooms[$i]['PhoneNumber']== '304'){
             $iconClass = 'fa-wheelchair-alt';
-        }        
-        if($rooms[$i+1]['Location'] !== $piso){
+        }
+        if($piso_actual !== $piso_anterior || $j == 0){
+            $open = true;
+            if($j !== 0){
+                echo"</div>";
+            }
             echo "<div class=\"ui cards\">";
         }?>
         <div class="card">
@@ -91,10 +96,8 @@ if(!empty($rooms)){
             </div>
         </div>
     <?php
-        if($rooms[$i+1]['Location'] !== $piso){
-            echo"</div>";
-        }
-        $piso = $rooms[$i]['Location'];
+        $piso_anterior = $rooms[$i]['Location'];
+        $j++;
     }?>
 <?php 
 }

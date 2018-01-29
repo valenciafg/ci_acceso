@@ -221,5 +221,23 @@ $(document).ready(function() {
     if($("#lastDoorMov").length>0){
         setInterval(updateDefaultTable, generalRefreshTime);
     }
-    
+    if($("#upScrollToTop").length > 0){
+        $(window).scroll(function(){
+            if($(this).scrollTop() > 100){
+                $("#upScrollToTop").fadeIn();
+                $("#upScrollToDown").fadeOut();
+            }else{
+                $("#upScrollToTop").fadeOut();
+                $("#upScrollToDown").fadeIn();
+            }
+        });
+        $("#upScrollToTop").click(function(){
+            $('html, body').animate({scrollTop: 0}, 800);
+            return false;
+        });
+        $("#upScrollToDown").click(function(){
+            $('html, body').animate({scrollTop: $(document).height()-$(window).height()}, 800);
+            return false;
+        });
+    }
 });
