@@ -31,7 +31,8 @@
 	  	<div class="column">
 		    <h2 class="ui primary image header">
 		      <img src="assets/images/hotel_logof.png" class="image" style="width: 4.5em;">
-		      <div class="content">Sistema de Control de Accesos</div>
+					<br/>
+		      <div class="content">Merú Link</div>
 		    </h2>
 		    <form id="login-form" class="ui large form">
 		      	<div class="ui stacked segment">

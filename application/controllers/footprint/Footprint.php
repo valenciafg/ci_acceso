@@ -106,6 +106,84 @@ class Footprint extends CI_Controller {
         header('Content-Type: application/json');
         echo json_encode($response);
     }
+    public function searchPeopleCNE(){
+        $returnAjax = $this->input->post('returnAjax');
+        $nacionalidad = $this->input->post('nacionalidad');
+        $cedula = $this->input->post('cedula');
+        $this->load->library('infove');
+        $response = $this->infove->obtenerElectorCNE($nacionalidad,$cedula);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
+    }
+    public function searchTaxpayerSENIAT(){
+        $returnAjax = $this->input->post('returnAjax');
+        $rif = $this->input->post('rif');
+        $this->load->library('infove');
+        $response = $this->infove->obtenerContribuyenteSENIAT($rif);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
+    }
+    public function searchIVSS(){
+        $returnAjax = $this->input->post('returnAjax');
+        $nacionalidad = $this->input->post('nacionalidad');
+        $cedula = $this->input->post('cedula');
+        $dia = $this->input->post('dia');
+        $mes = $this->input->post('mes');
+        $anho = $this->input->post('anho');
+        $this->load->library('infove');
+        $response = $this->infove->obtenerCuentaIVSS($nacionalidad,$cedula,$dia,$mes,$anho);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
+    }
+    public function searchDebtCORPOELEC(){
+        $returnAjax = $this->input->post('returnAjax');
+        $nic = $this->input->post('nic');
+        $this->load->library('infove');
+        $response = $this->infove->obtenerDeudaCorpoelec($nic);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
+    }
+    public function searchDebtCANTV(){
+        $returnAjax = $this->input->post('returnAjax');
+        $area = $this->input->post('area');
+        $tlf = $this->input->post('tlf');
+        $this->load->library('infove');
+        $response = $this->infove->obtenerDeudaCANTV($area,$tlf);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
+    }
+    public function searchTrackingZoom(){
+        $returnAjax = $this->input->post('returnAjax');
+        $nro = $this->input->post('nro');
+        $this->load->library('infove');
+        $response = $this->infove->obtenerSeguimientoZOOM($nro);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
+    }
     public function setFootprintDataResponse($data){
         $logs = [];
         for($i = 0; $i < count($data) -1; $i++){

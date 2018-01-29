@@ -5,7 +5,7 @@
             <div class="ui calendar start-date">
                 <div class="ui input left icon">
                     <i class="calendar icon"></i>
-                    <input id="sevent_start_date" name="sevent_start_date" type="text" placeholder="Fecha Inicio" value="<?= date('d-m-Y');?>">
+                    <input id="sevent_start_date" name="sevent_start_date" type="text" placeholder="Fecha Inicio" value="<?= date('d-m-Y',strtotime("-1 day"));?>">
                 </div>
             </div>
         </div>

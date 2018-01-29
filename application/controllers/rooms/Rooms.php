@@ -71,6 +71,8 @@ class Rooms extends CI_Controller {
             die();
         }
         $data['eventtypes'] = $this->rooms_model->getEventTypes();
+        $data['availability'] = $this->rooms_model->getRoomAvailability();
+        $data['status'] = $this->rooms_model->getRoomStatusRecords();
         $this->load->view('rooms/event-types',$data);
     }
     public function saveEventTypeData(){
@@ -80,11 +82,15 @@ class Rooms extends CI_Controller {
         $descripcion = $this->input->post('aet_description');
         $clasificacion = $this->input->post('aet_clasification');
         $departamento = $this->input->post('aet_departament');
+        $disponibilidad = $this->input->post('aet_availability');
+        $estatus = $this->input->post('aet_status');
         $args = [
             'eventCode' => $codigo,
             'description' => $descripcion,
             'clasification' => $clasificacion,
             'department' => $departamento,
+            'availability' => $disponibilidad,
+            'status' => $estatus,
             'createUser' => $profile['user']
         ];
         $response = $this->rooms_model->insertEventType($args);
@@ -103,12 +109,16 @@ class Rooms extends CI_Controller {
         $descripcion = $this->input->post('eet_description');
         $clasificacion = $this->input->post('eet_clasification');
         $departamento = $this->input->post('eet_departament');
+        $disponibilidad = $this->input->post('eet_availability');
+        $estatus = $this->input->post('eet_status');
         $args = [
             'id' => $id,
             'eventCode' => $codigo,
             'description' => $descripcion,
             'clasification' => $clasificacion,
             'department' => $departamento,
+            'availability' => $disponibilidad,
+            'status' => $estatus,
             'editUser' => $profile['user'],
             'editDate' => date('Y-m-d H:i:s')
         ];
@@ -155,10 +165,9 @@ class Rooms extends CI_Controller {
             redirect(base_url() . "login");
             die();
         }
-        // $data['clasifications'] = $this->rooms_model->getRoomEventTypeClasification();
         $data['operators'] = $this->rooms_model->getOperators();
         $data['rooms'] = $this->rooms_model->getRoom();
-        $data['events'] = [];//$this->rooms_model->getRoomStatus();
+        $data['events'] = [];
         $this->load->view('rooms/room-events',$data);
     }
     public function searchroomevents(){
@@ -178,6 +187,26 @@ class Rooms extends CI_Controller {
             $args['operator'] = $operator;
         }
         $response = $this->rooms_model->getRoomEvents($args);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
+    }
+    public function searchAvailability(){
+        $returnAjax = $this->input->post('returnAjax');
+        $response = $this->rooms_model->getAvailability();
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
+    }
+    public function searchStatus(){
+        $returnAjax = $this->input->post('returnAjax');
+        $response = $this->rooms_model->getStatus();
         if($returnAjax != null){
             header('Content-Type: application/json');
             echo json_encode($response);

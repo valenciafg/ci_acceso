@@ -57,7 +57,36 @@ $(document).ready(function () {
             }
         });
     }
-
+    function getStatus(args,callback){
+        $.ajax({
+            url: app_url + "rooms/rooms/searchStatus",
+            type: "POST",
+            data: args,
+            dataType: "json",
+            success: function (response) {
+                callback(response);
+            },
+            error: function (request, error) {
+                console.log("Request: " + JSON.stringify(request));
+                console.log("Error: " + JSON.stringify(error));
+            }
+        });
+    }
+    function getAvailability(args,callback){
+        $.ajax({
+            url: app_url + "rooms/rooms/searchAvailability",
+            type: "POST",
+            data: args,
+            dataType: "json",
+            success: function (response) {
+                callback(response);
+            },
+            error: function (request, error) {
+                console.log("Request: " + JSON.stringify(request));
+                console.log("Error: " + JSON.stringify(error));
+            }
+        });
+    }
     function handleDepartmentResponse(response, dp) {
         var options = '<option value="">[Seleccione]</option>';
         var sw = false;
@@ -273,9 +302,29 @@ $(document).ready(function () {
                     returnAjax: true
                 };
                 getDepartments(handleEditEventTypeDepartment, args, response.department);
-                console.log(response);
+                // console.log(response);
                 if(response.clasification !== null){
                     $("select[name=eet_clasification]").val(response.clasification);
+                }
+                getStatus(args, function(response){
+                    var options = '<option value="">[Seleccione]</option>';
+                    response.forEach(function (element, i) {
+                        options += "<option value=\""+element.id+"\">"+element.Name+"</option>";
+                    });
+                    $("select[name=eet_status]").html(options);
+                });
+                if(response.status !== null){
+                    $("select[name=eet_status]").val(response.status);
+                }
+                getAvailability(args, function(response){
+                    var options = '<option value="">[Seleccione]</option>';
+                    response.forEach(function (element, i) {
+                        options += "<option value=\""+element.id+"\">"+element.name+"</option>";
+                    });
+                    $("select[name=eet_availability]").html(options);
+                });
+                if(response.availability !== null){
+                    $("select[name=eet_availability]").val(response.availability);
                 }
             }
         });

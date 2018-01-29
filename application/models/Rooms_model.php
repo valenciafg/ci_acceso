@@ -35,10 +35,12 @@ class Rooms_model extends CI_Model
      * Event Types section
      */
     public function getEventTypes($args = []){
-        $sql = "SELECT ret.*, dp.DEPARTMENT_NAME, retc.description AS className
+        $sql = "SELECT ret.*, dp.DEPARTMENT_NAME, retc.description AS className, rs.Name as statusName, ra.name as availabilityName
         FROM RoomEventType ret
         LEFT JOIN [MAINSERVER\EASYCLOCKING].[SekureTime].dbo.DEPARTMENT AS dp ON dp.DEPARTMENT_CODE = ret.department
         LEFT JOIN RoomEventTypeClasification AS retc ON retc.id = ret.clasification
+        LEFT JOIN RoomStatus AS rs ON rs.id = ret.status
+        LEFT JOIN RoomAvailability AS ra ON ra.id = ret.availability
         WHERE 1 = 1";
         if(!empty($args)){
 
@@ -61,6 +63,8 @@ class Rooms_model extends CI_Model
             'description' => $args['description'],
             'clasification' => $args['clasification'],
             'department' => $args['department'],
+            'availability' => $args['availability'],
+            'status' => $args['status'],
             'editUser' => $args['editUser'],
             'editDate' => $args['editDate']
         ];
@@ -111,6 +115,10 @@ class Rooms_model extends CI_Model
         ro.alias operatorAlias,
         ro.name AS operatorName,
         ret.department,
+        ret.status as statusCode,
+        rs.Name as statusName,
+        ret.availability as availabilityCode,
+        ra.name as availabilityName,
         dp.DEPARTMENT_NAME AS departmentName
         FROM PhoneDirectory pd
         LEFT JOIN (
@@ -120,6 +128,8 @@ class Rooms_model extends CI_Model
         LEFT JOIN RoomEvent re ON re.roomExtension = pd.PhoneNumber AND re.regDate = t1.regDate
         LEFT JOIN RoomEventType ret ON ret.eventCode = re.eventCode
         LEFT JOIN RoomEventTypeClasification retc ON retc.id = ret.clasification
+        LEFT JOIN RoomStatus rs ON rs.id = ret.status
+        LEFT JOIN RoomAvailability ra ON ra.id = ret.availability
         LEFT JOIN RoomOperator ro ON ro.code = re.operatorCode
         LEFT JOIN [MAINSERVER\EASYCLOCKING].[SekureTime].dbo.DEPARTMENT AS dp ON dp.DEPARTMENT_CODE = ret.department
         WHERE 1 = 1
@@ -166,6 +176,46 @@ class Rooms_model extends CI_Model
             $sql .= isset($args['operator'])?" AND re.operatorCode = '".$args['operator']."' ":"";
         }
         $sql .= " ORDER BY re.regDate DESC";
+        $query = $meru_db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+    public function getRoomAvailability($args = []){
+        $sql = "SELECT ra.* FROM RoomAvailability ra WHERE 1 = 1 ";
+        if(!empty($args)){
+
+        }
+        $meru_db = $this->load->database('meru', TRUE);
+        $query = $meru_db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+    public function getRoomStatusRecords($args = []){
+        $sql = "SELECT rs.* FROM RoomStatus rs WHERE 1 = 1 ";
+        if(!empty($args)){
+
+        }
+        $meru_db = $this->load->database('meru', TRUE);
+        $query = $meru_db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+    public function getAvailability($args = []){
+        $sql = "SELECT ra.* FROM RoomAvailability ra WHERE 1 = 1 ";
+        if(!empty($args)){
+
+        }
+        $meru_db = $this->load->database('meru', TRUE);
+        $query = $meru_db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+    public function getStatus($args = []){
+        $sql = "SELECT rs.* FROM RoomStatus rs WHERE 1 = 1 ";
+        if(!empty($args)){
+
+        }
+        $meru_db = $this->load->database('meru', TRUE);
         $query = $meru_db->query($sql);
         $result = $query->result_array();
         return $result;

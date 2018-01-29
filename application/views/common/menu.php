@@ -5,10 +5,10 @@
     <a class="<?= ($item=='home'?'active ':'')?>item" href="<?=base_url();?>">
         Home
     </a>
-    <a class="<?= ($item=='calendar'?'active ':'')?>item" href="<?=base_url().'calendar';?>">Calendario</a>
     <div class="ui item dropdown item-doors">
         Accesos <i class="dropdown icon"></i>
         <div class="menu">
+            <a class="<?= ($item=='main'?'active ':'')?>item" href="<?= base_url().'main';?>">Ult. Accesos</a>
             <a class="<?= ($item=='users'?'active ':'')?>item" href="<?= base_url().'users';?>">Usuarios</a>
             <a class="<?= ($item=='doors'?'active ':'')?>item" href="<?= base_url().'doors';?>">Puertas</a>
             <a class="<?= ($item=='schedule'?'active ':'')?>item" href="<?= base_url().'schedule';?>">Horarios</a>

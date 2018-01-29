@@ -2,11 +2,13 @@
     <?php
     $this->load->view('common/header');
     $this->load->view('common/menu',['item'=>'roomeventtypes']);
+    // var_dump($availability);
+    // var_dump($status);
     ?>
     <div class="ui vertical segment container first-segment">
         <?php $this->load->view('rooms/event-types-add-modal');?>
         <?php $this->load->view('rooms/event-types-edit-modal');?>
-        <?php $this->load->view('rooms/event-types-list',['eventtypes'=>$eventtypes]);?>
+        <?php $this->load->view('rooms/event-types-list',['eventtypes'=>$eventtypes,'availability'=>$availability,'status'=>$status]);?>
     </div>
 </div>
 

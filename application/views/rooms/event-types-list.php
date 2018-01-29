@@ -10,6 +10,8 @@
             <th>Descripción</th>
             <th>Clasificacion</th>
             <th>Departamento</th>
+            <th>Disponibilidad</th>
+            <th>Estatus</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -24,6 +26,8 @@
             <td><?= $et['description'];?></td>
             <td><?= $et['className'];?></td>
             <td><?= $et['DEPARTMENT_NAME'];?></td>
+            <td><?= $et['availabilityName'];?></td>
+            <td><?= $et['statusName'];?></td>
             <td><?= $btn;?></td>
         </tr>
     <?php

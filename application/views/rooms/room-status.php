@@ -1,4 +1,4 @@
-<div class="pusher">
+
     <?php
     $this->load->view('common/header');
     $this->load->view('common/menu',['item'=>'roomstatus']);
@@ -7,7 +7,7 @@
     <div class="ui vertical segment first-segment">
         <?php $this->load->view('rooms/room-status-list',['rooms'=>$rooms]);?>
     </div>
-</div>
+
 
 <?php $this->load->view('common/footer');?>
 <script src="dist/scripts/jquery.js" type="text/javascript"></script>

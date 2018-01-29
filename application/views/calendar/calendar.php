@@ -1,12 +1,11 @@
-<div class="pusher">
-    <?php
-    $this->load->view('common/header');
-    $this->load->view('common/menu',['item'=>'calendar']);
-    ?>
+<?php
+$this->load->view('common/header');
+$this->load->view('common/menu',['item'=>'home']);
+?>
 
     <div id="calendar-segmentx" class="ui vertical segment first-segment" style="margin: 0;">
         <div class="ui container calendar-container">
-<!--            Title-->
+            <!--Title-->
             <h1 class="ui dividing center aligned header"><i class="fa fa-calendar" aria-hidden="true"></i> Calendario de Eventos</h1>
             <!-- Calendar -->
             <div id="calendar" class=""></div>
@@ -59,12 +58,10 @@
             </div>
         </div>
     </div>
-</div>
-
-<?php $this->load->view('common/footer');?>
-<script src="dist/scripts/jquery.js" type="text/javascript"></script>
-<script src="dist/scripts/libs.js" type="text/javascript"></script>
-<script src="dist/scripts/plugins.js" type="text/javascript"></script>
-<script src="dist/scripts/main.js" type="text/javascript"></script>
-</body>
+    <?php $this->load->view('common/footer');?>
+    <script src="dist/scripts/jquery.js" type="text/javascript"></script>
+    <script src="dist/scripts/libs.js" type="text/javascript"></script>
+    <script src="dist/scripts/plugins.js" type="text/javascript"></script>
+    <script src="dist/scripts/main.js" type="text/javascript"></script>
+    </body>
 </html>

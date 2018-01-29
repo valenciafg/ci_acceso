@@ -42,6 +42,20 @@
 					</select>
 				</div>
 			</div>
+			<div class="fields">
+				<div class="six wide field">
+					<label for="">Disponibilidad</label>
+					<select class="ui fluid search dropdown" name="eet_availability" id="eet_availability">
+						<option value="">[Seleccione]</option>
+					</select>
+				</div>
+				<div class="six wide field">
+					<label for="">Estatus de Habitacion</label>
+					<select class="ui fluid search dropdown" name="eet_status" id="eet_status">
+						<option value="">[Seleccione]</option>
+					</select>
+				</div>
+			</div>
 		</form>
 	</div>
 	<div class="actions">

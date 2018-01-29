@@ -42,6 +42,26 @@
 					</select>
 				</div>
 			</div>
+			<div class="fields">
+				<div class="six wide field">
+					<label for="">Disponibilidad</label>
+					<select class="ui fluid search dropdown" name="aet_availability" id="aet_availability">
+						<option value="">[Seleccione]</option>
+						<?php foreach($availability as $av):?>
+						<option value="<?= $av['id'];?>" <?= $av['id']=='1'?'selected':'';?>><?= $av['name'];?></option>
+						<?php endforeach;?>
+					</select>
+				</div>
+				<div class="six wide field">
+					<label for="">Estatus de Habitacion</label>
+					<select class="ui fluid search dropdown" name="aet_status" id="aet_status">
+						<option value="">[Seleccione]</option>
+						<?php foreach($status as $st):?>
+						<option value="<?= $st['id'];?>" <?= $st['id']=='2'?'selected':'';?>><?= $st['Name'];?></option>
+						<?php endforeach;?>
+					</select>
+				</div>
+			</div>
 		</form>
 	</div>
 	<div class="actions">
