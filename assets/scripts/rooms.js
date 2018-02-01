@@ -11,10 +11,12 @@ $(document).ready(function () {
                 "order": [
                     [0, "asc"]
                 ],
-                "pageLength": 10,
+                "pageLength": 50,
                 "language": {
                     "url": "extras/SpanishDatatable.json"
                 },
+                lengthChange: false,
+                buttons: [ 'copy', 'excel', 'pdf', 'colvis' ],
                 "bDestroy": true
             });
             return table;
@@ -163,7 +165,7 @@ $(document).ready(function () {
                 "order": [
                     [0, "asc"]
                 ],
-                "pageLength": 25,
+                "pageLength": 50,
                 "language": {
                     "url": "extras/SpanishDatatable.json"
                 },
@@ -395,7 +397,7 @@ $(document).ready(function () {
         dTableFootprint = $(selector).DataTable({
             data: data,
             "order": [[9, "desc"]],
-            "pageLength": 25,
+            "pageLength": 50,
             columns: [
                 { title: "#" },
                 { title: "Ext." },
@@ -471,4 +473,152 @@ $(document).ready(function () {
     $("#search-room-event").click(function(){
         searchroomevents();
     });
+    /**
+     * Seccion Room Status
+     */
+    var roomstatus_list = $("#room-status-card-list");
+    function getRoomStatusUpdateTime(callback){
+        $.ajax({
+            url: app_url + "settings/settings/getRoomStatusUpdateTimeAjax",
+            type: "POST",
+            dataType: "json",
+            async: false,
+            success: function(response){callback(response.time);},
+            error: function(request, error) { callback(30);}
+        });
+    }
+    function createRoomStatusCard(){
+        $.ajax({
+            url: app_url+"rooms/rooms/getRoomStatus",
+            type: "POST",
+            data: {
+                returnAjax: true
+            },
+            dataType: "json",
+            success: function(response){
+                console.log(response);
+                if(response.length > 0){
+                    makeRoomStatusCards(response);
+                }
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+                console.log("Error: " + JSON.stringify(error));
+            }
+        });
+    }
+    function makeRoomStatusCards(rooms){
+        var tam = rooms.length;
+        var j = 0;
+        var piso_anterior = '';
+        var piso_actual = '';
+        var cards = '';
+        for(var i = 0; i < tam; i++){
+            piso_actual = rooms[i].Location;
+            var availabilityClass = 'negro';
+            if(rooms[i].availabilityCode !== null){
+                availabilityCode = rooms[i].availabilityCode;
+                switch(availabilityCode){
+                    case 1:
+                        availabilityClass = 'negro';
+                        break;
+                    case 2:
+                        availabilityClass = 'verde';
+                        break;
+                    case 3:
+                        availabilityClass = 'rojo';
+                        break;
+                    case 4:
+                        availabilityClass = 'naranja';
+                        break;
+                    case 5:
+                        availabilityClass = 'amarillo';
+                        break;
+                    default:
+                        availabilityClass = 'negro';
+                        break;
+                }
+            }
+            var statusClass = 'negro';
+            if(rooms[i].statusCode !== null){
+                statusCode = rooms[i].statusCode;
+                switch(statusCode){
+                    case 1:
+                        statusClass = 'verde';
+                        break;
+                    case 2:
+                        statusClass = 'amarillo';
+                        break;
+                    case 3:
+                        statusClass = 'azul';
+                        break;
+                    case 4:
+                        statusClass = 'rojo';
+                        break;
+                    case 5:
+                        statusClass = 'negro';
+                        break;
+                    case 6:
+                        statusClass = 'naranja';
+                        break;
+                    case 7:
+                        statusClass = 'morado';
+                        break;
+                    default:
+                        statusClass = 'negro';
+                        break;
+                }
+            }
+            var iconClass = 'fa-bed'; 
+            if(rooms[i].PhoneNumber== '304'){
+                iconClass = 'fa-wheelchair-alt';
+            }
+            var id_piso = '';
+            if(piso_actual !== piso_anterior || j === 0){
+                id_piso = piso_actual.toLowerCase();
+                id_piso = id_piso.replace(/ /g, '-');
+                if(j !== 0){
+                    cards += "</div>";
+                }else{
+                    id_piso = 'piso-0';                
+                }
+                cards += "<div id=\""+id_piso+"\" class=\"ui cards\">";
+            }
+            cards +=  "<div class='card'>";
+            cards +=  "<div class=\"content\">";
+            cards +=  "<i class=\"ui left floated fa "+iconClass+" fa-2x fa-border "+availabilityClass+"\" aria-hidden=\"true\"></i>";
+            cards +=  "<div class=\"header borde-negro "+statusClass+"\">";
+            cards += rooms[i].roomName;
+            cards +=  "</div>";
+            cards +=  "<div class=\"meta\">";
+            cards +=  rooms[i].Location+'. Ext.: '+rooms[i].PhoneNumber;
+            cards += "</div>";
+            cards += "<div class=\"meta\">";
+            if(rooms[i].statusCode !== null){
+                cards += '<br/>'+rooms[i].statusName;
+            }
+            cards += "</div>";
+            cards += "<div class=\"description\">";
+            cards += rooms[i].eventDescription!==null?rooms[i].eventDescription:'';
+            if(rooms[i].availabilityCode !== null){
+                cards += '<br/><br/><div style="text-align:center;">'+rooms[i].availabilityName+'</div>';
+            }
+            cards += "</div>";
+            cards += "</div>";
+            cards += "</div>";
+            piso_anterior = rooms[i].Location;
+            j++;
+        }
+        $("#room-status-card-list").html(cards);
+        // console.log(cards);
+    }
+    if(roomstatus_list.length > 0){
+        var refreshTime = 30000;
+        getRoomStatusUpdateTime(function(response){
+            refreshTime = response * 1000;
+        });
+        // console.log('el itea es', refreshTime);
+        createRoomStatusCard();
+        setInterval(createRoomStatusCard, refreshTime);
+    }
 });

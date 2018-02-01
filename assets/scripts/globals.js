@@ -204,7 +204,6 @@ $(document).ready(function() {
             type: "POST",
             dataType: "json",
             success: function(data){
-                // console.log(data);
                 if(data.error === false){
                     destroyDataTable(lastDoorMovTable);
                     var events = createDoorsEventsResultBody(data.events);
@@ -240,4 +239,13 @@ $(document).ready(function() {
             return false;
         });
     }
+    $(".room-level-list-item").click(function(){
+        var valor = $(this).text();
+        var target = $('#piso-' + valor);
+        if( target.length ) {
+            $('html, body').animate({
+                scrollTop: target.offset().top + $("#main-menu").height()
+            }, 1000);
+        }
+    });
 });

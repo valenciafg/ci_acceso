@@ -6,9 +6,13 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Usuario</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Usuario Profit</th>
             <th>Estatus</th>
             <th>Tipo</th>
+            <th>Ausencia</th>
+            <th>Nota Ausencia</th>
             <th>Departamento</th>
             <th>Fecha de Creacion</th>
             <th>Foto</th>
@@ -18,10 +22,9 @@
     <?php
         foreach ($users as $user):
             $user_name = $user['FIRST_NAME'].' '.$user['LAST_NAME'];
-            //(isset($action['x_fname'])&&!empty($action['x_fname'])?$action['x_fname']:'').' '.(isset($action['x_lname'])&&!empty($action['x_lname'])?$action['x_lname']:'');
             $create_date = date("d/m/Y h:i:s A", strtotime($user['CREATE_DATE']));;
             $estatus = $user['STATUS'];
-            if($estatus==='Inactive'){
+            if($estatus==='Inactive' || $estatus==='Terminate'){
                 $estatus = "<div class='ui red label'>Inactivo</div>";
             }else{
                 $estatus = "<div class='ui green label'>Activo</div>";
@@ -55,9 +58,13 @@
     ?>
         <tr>
             <td><?=$user['USER_ID'];?></td>
-            <td><?=$user_name;?></td>
+            <td><?=$user['FIRST_NAME'];?></td>
+            <td><?=$user['LAST_NAME'];?></td>
+            <td><?=$user['PROFIT_USER'];?></td>
             <td><?=$estatus;?></td>
             <td><?= $tipo_empleado;?></td>
+            <td><?=$user['ABSENCE_TYPE'];?></td>
+            <td><?=$user['ABSENCE_NOTES'];?></td>
             <td><?=$user['DEPARTMENT_NAME'];?></td>
             <td data-order="<?=strtotime($user['CREATE_DATE']);?>"><?=$create_date;?></td>
             <td><?= $foto;?></td>

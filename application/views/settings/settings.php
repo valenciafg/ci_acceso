@@ -1,18 +1,16 @@
 <div class="pusher">
     <?php
     $this->load->view('common/header');
-    $this->load->view('common/menu',['item'=>'settings']);
+	$this->load->view('common/menu',['item'=>'settings']);
+	// var_dump($settings);
     ?>
-
     <div class="ui vertical segment container first-segment">
 		<div id="setting-error-msg"></div>
 		<div id="setting-positive-msg"></div>
     	<div class="ui top attached tabular menu settings">
     		<div class="item active" data-tab="tab-general">General</div>
-    		<!--<div class="item" data-tab="tab-doors">Control de Puertas</div>-->
     	</div>
     	<?php $this->load->view('settings/general_tab');?>
-    	<!--<?php $this->load->view('settings/doors_tab');?>-->
 	</div>
 </div>
 

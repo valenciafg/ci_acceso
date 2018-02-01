@@ -1,4 +1,4 @@
-<div class="ui fixed stackable menu">
+<div id="main-menu" class="ui fixed stackable menu">
     <div class="item">
         <img src="dist/images/hotel_logof.png">
     </div>
@@ -31,6 +31,9 @@
             <a class="<?= ($item=='roomeventtypes'?'active ':'')?>item" href="<?= base_url().'roomeventtypes';?>">Config. Tipos de Eventos</a>            
         </div>
     </div>
+    <a class="<?= ($item=='services'?'active ':'')?>item" href="<?=base_url()."services";?>">
+        Servicios
+    </a>
     <div class="right menu">
         <a href="<?= base_url().'settings';?>" class="<?= ($item=='settings'?'active ':'')?>item">Configuración</a>
         <div class="ui dropdown item item-user">

@@ -50,6 +50,10 @@ class Settings extends CI_Controller {
         $config['configName'] = 'general_update_time';
         $config['configValue'] = $general_update_time;
         $data[] = $config;
+        $roomstatus_update_time = $this->input->post('roomstatus_update_time');
+        $config['configName'] = 'roomstatus_update_time';
+        $config['configValue'] = $roomstatus_update_time;
+        $data[] = $config;
         $result = $this->settings_model->save_all_config($data);
         if($result>0){
             $msg = "Algunos datos no fueron almacenados";
@@ -63,6 +67,14 @@ class Settings extends CI_Controller {
     public function getGeneralUpdateTimeAjax(){
         $data = [];
         $config = $this->settings_model->get_config_field('general_update_time');
+        if($config)
+            $data = ['time'=> $config->configValue];
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
+    public function getRoomStatusUpdateTimeAjax(){
+        $data = [];
+        $config = $this->settings_model->get_config_field('roomstatus_update_time');
         if($config)
             $data = ['time'=> $config->configValue];
         header('Content-Type: application/json');

@@ -153,8 +153,19 @@ class Rooms extends CI_Controller {
             redirect(base_url() . "login");
             die();
         }
-        $data['rooms'] = $this->rooms_model->getRoomStatus();
+        $data['rooms'] = $this->getRoomStatus();
         $this->load->view('rooms/room-status',$data);
+    }
+    public function getRoomStatus(){
+        $returnAjax = $this->input->post('returnAjax');
+        $args = [];
+        $response = $this->rooms_model->getRoomStatus($args);
+        if($returnAjax != null){
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }else{
+            return $response;
+        }
     }
     public function roomStatusScheduledTask(){
         $rooms = $this->rooms_model->getRoomStatus(['availabilityCode'=>5]);
@@ -163,10 +174,10 @@ class Rooms extends CI_Controller {
             $data = [
                 'roomExtension' => $r['PhoneNumber'],
                 'roomName' => $r['roomNameCentral'],
-                'eventCode' => '105',
+                'eventCode' => '106',
                 'operatorCode' => '35'
             ];
-            $this->rooms_model->getRoomStatus($data);
+            $this->rooms_model->insertRoomEvent($data);
             $sw = true;
         }
         header('Content-Type: application/json');

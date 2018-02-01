@@ -63,6 +63,7 @@ $route['fpusers'] = 'footprint/footprint/users';
 $route['sfootprint'] = 'footprint/footprint/search';
 $route['users'] = 'doors/doors/users';
 $route['calendar'] = 'calendar/calendar';
+$route['services'] = 'services/services';
 $route['login'] = 'settings/settings/login';
 $route['logout'] = 'settings/settings/logout';
 $route['404_override'] = '';

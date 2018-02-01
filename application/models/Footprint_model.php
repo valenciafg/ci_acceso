@@ -8,11 +8,13 @@ class Footprint_model extends CI_Model
     }
     public function getAllUsers($args = []){
         $main_db = $this->load->database('main', TRUE);
-        $main_db->select('au.*, d.DEPARTMENT_NAME, et.TYPE_NAME, tup.PHOTO');
+        $main_db->select("au.*, '' as PROFIT_USER, d.DEPARTMENT_NAME, et.TYPE_NAME, tup.PHOTO, tabt.TYPE_NAME as ABSENCE_TYPE, tab.NOTES as ABSENCE_NOTES");
         $main_db->from('ACCESS_USER as au');
         $main_db->join('DEPARTMENT as d', 'au.DEPARTMENT_CODE = d.DEPARTMENT_CODE', 'left');
         $main_db->join('EMPLOYEE_TYPE as et', 'et.ID = au.EMPLOYEE_TYPE', 'left');
         $main_db->join('TA_USER_PHOTO as tup', 'tup.USER_ID = au.USER_ID', 'left');
+        $main_db->join('TA_ABSENCE as tab', 'tab.USER_ID = au.USER_ID AND tab.DATE = CONVERT(date, getdate())', 'left');
+        $main_db->join('TA_ABSENCE_TYPE as tabt', 'tabt.ID = tab.ABSENCE_TYPE_ID', 'left');
         $query = $main_db->get();
     	$result = $query->result_array();
         return $result;

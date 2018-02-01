@@ -1,8 +1,8 @@
 $(document).ready(function() {
     $("#save_general_settings").click(function () {
         var settings = $('#general-settings-form').serialize();
-        console.log("voy a guardar");
-        console.log(settings);
+        // console.log("voy a guardar");
+        // console.log(settings);
         $.ajax({
             url: app_url+"settings/settings/saveGeneralAjax",
             type: "POST",

@@ -4,7 +4,7 @@ $(document).ready(function() {
     var main_schedule_form = "";
     var do_again = 0;
     function searchScheduleAJAX(){
-        console.log("datos a enviar",main_schedule_form);
+        // console.log("datos a enviar",main_schedule_form);
         $.ajax({
             url: app_url+"doors/doors/searchEventsBySchedule",
             type: "POST",
