@@ -382,6 +382,7 @@ $(document).ready(function () {
           row.push(i+1);
           row.push(element.roomExtension);
           row.push(element.roomName);
+          row.push(element.guestName);
           row.push(element.Type);
           row.push(element.clasification);
           row.push(element.DEPARTMENT_NAME);
@@ -396,12 +397,13 @@ $(document).ready(function () {
     function crearTablaEventos(selector, data){
         dTableFootprint = $(selector).DataTable({
             data: data,
-            "order": [[9, "desc"]],
+            "order": [[10, "desc"]],
             "pageLength": 50,
             columns: [
                 { title: "#" },
                 { title: "Ext." },
                 { title: "Habitacion" },
+                { title: "Huesped" },
                 { title: "Eventos" },
                 { title: "Clasificacion" },
                 { title: "Departamento" },
@@ -411,7 +413,7 @@ $(document).ready(function () {
                 { title: "Fecha" }
             ],
             "columnDefs": [
-                { "visible": false, "targets": [8] },
+                { "visible": false, "targets": [9] },
               ],
             "language": {
                 "url": "extras/SpanishDatatable.json"
@@ -487,6 +489,19 @@ $(document).ready(function () {
             error: function(request, error) { callback(30);}
         });
     }
+    function getCheckOutTimeLimit(callback){
+        $.ajax({
+            url: app_url + "settings/settings/getCheckOutTimeLimitAjax",
+            type: "POST",
+            dataType: "json",
+            async: false,
+            success: function(response){callback(response.time);},
+            error: function(request, error) { callback(30);}
+        });
+    }
+    /**
+     * Consulta y realiza llamada a creacion de elemetos cards
+     */
     function createRoomStatusCard(){
         $.ajax({
             url: app_url+"rooms/rooms/getRoomStatus",
@@ -496,7 +511,7 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function(response){
-                console.log(response);
+                // console.log(response);
                 if(response.length > 0){
                     makeRoomStatusCards(response);
                 }
@@ -507,14 +522,47 @@ $(document).ready(function () {
             }
         });
     }
+    function handleCreateEventLoop(response){}
+    /**
+     * Crea dinamicamente los elementos cards para cada habitacion
+     * @param {*} rooms 
+     */
     function makeRoomStatusCards(rooms){
+        var checkoutTimeLimit = 10;
+        getCheckOutTimeLimit(function(response){
+            checkoutTimeLimit = response;
+        });
         var tam = rooms.length;
         var j = 0;
         var piso_anterior = '';
         var piso_actual = '';
         var cards = '';
+        var is_check_out = false;
+        var current_date = moment();
+        var event_date;
         for(var i = 0; i < tam; i++){
+            var check_out_class = '';
+            is_check_out = rooms[i].statusCode == 6;
+            event_date = moment(rooms[i].eventDate,'YYYY-MM-DD HH:mm:ss');
             piso_actual = rooms[i].Location;
+            if(is_check_out){
+                // console.log('****-****',current_date.diff(event_date,'minutes'),current_date.format('YYYY-MM-DD HH:mm:ss'),event_date.format('YYYY-MM-DD HH:mm:ss'));
+                co_diff = current_date.diff(event_date,'minutes');
+                if(co_diff > checkoutTimeLimit){
+                    check_out_class = 'blink_me_quick';
+                    var dataParams = {
+                        returnAjax: true,
+                        event_code:'109',
+                        room: rooms[i].PhoneNumber,
+                        roomName: rooms[i].roomName
+                    };
+                    createRoomEvent(dataParams, handleCreateEventLoop);
+                }else{
+                    if((co_diff >= checkoutTimeLimit/2) && (co_diff <= checkoutTimeLimit)){
+                        check_out_class = 'blink_me';
+                    }
+                }
+            }
             var availabilityClass = 'negro';
             if(rooms[i].availabilityCode !== null){
                 availabilityCode = rooms[i].availabilityCode;
@@ -580,13 +628,21 @@ $(document).ready(function () {
                 if(j !== 0){
                     cards += "</div>";
                 }else{
-                    id_piso = 'piso-0';                
+                    id_piso = 'piso-1';                
                 }
                 cards += "<div id=\""+id_piso+"\" class=\"ui cards\">";
             }
             cards +=  "<div class='card'>";
             cards +=  "<div class=\"content\">";
-            cards +=  "<i class=\"ui left floated fa "+iconClass+" fa-2x fa-border "+availabilityClass+"\" aria-hidden=\"true\"></i>";
+            if(rooms[i].availabilityCode==2){//Check-in
+                cards +=  "<button data-check=\"1\" data-room=\""+rooms[i].PhoneNumber+"\" data-name=\""+rooms[i].roomName+"\" class=\"ui inverted basic button check-in-btn\" style=\"margin:0;padding:0;\"><i class=\"ui left floated fa "+iconClass+" fa-2x fa-border "+availabilityClass+"\" aria-hidden=\"true\"></i></button>";
+            }else{
+                if(rooms[i].availabilityCode==4 || rooms[i].availabilityCode==5){//Check-out
+                    cards +=  "<button data-check=\"0\" data-room=\""+rooms[i].PhoneNumber+"\" data-name=\""+rooms[i].roomName+"\" class=\"ui inverted basic button check-out-btn\" style=\"margin:0;padding:0;\"><i class=\"ui left floated fa "+iconClass+" fa-2x fa-border "+availabilityClass+"\" aria-hidden=\"true\"></i></button>";
+                }else{
+                    cards +=  "<i class=\"ui left floated fa "+iconClass+" fa-2x fa-border "+availabilityClass+' '+check_out_class+"\" aria-hidden=\"true\"></i>";
+                }
+            }            
             cards +=  "<div class=\"header borde-negro "+statusClass+"\">";
             cards += rooms[i].roomName;
             cards +=  "</div>";
@@ -610,15 +666,70 @@ $(document).ready(function () {
             j++;
         }
         $("#room-status-card-list").html(cards);
-        // console.log(cards);
     }
     if(roomstatus_list.length > 0){
         var refreshTime = 30000;
         getRoomStatusUpdateTime(function(response){
             refreshTime = response * 1000;
         });
-        // console.log('el itea es', refreshTime);
+        
         createRoomStatusCard();
         setInterval(createRoomStatusCard, refreshTime);
     }
+    /**
+     * 
+     * @param {*} selector 
+     */
+    function createCheckEvent(selector){
+        var check = selector.attr('data-check');
+        var room = selector.attr('data-room');
+        var name = selector.attr('data-name');
+        $("#check-room").val(room);
+        $("#check-code").val(check);
+        $("#check-name").val(name);
+        if(check==="1"){
+            $("#add-check-header").html('Nuevo Check-In');
+            $("#check-confirm-message").html("¿Desea crear el check-in para la habitacion "+room+"?");
+        }else{
+            $("#add-check-header").html('Nuevo Check-Out');
+            $("#check-confirm-message").html("¿Desea crear el check-out para la habitacion "+room+"?");
+        }
+        $("#add-check-event-modal").modal('show');
+    }
+    $("body").on('click','.check-in-btn', function(){
+        createCheckEvent($(this));
+    });
+    $("body").on('click','.check-out-btn', function(){
+        createCheckEvent($(this));
+    });
+    function createRoomEvent(data,callback){
+        $.ajax({
+            url: app_url+"rooms/rooms/createRoomEvent",
+            type: "POST",
+            data: data,
+            dataType: "json",
+            success: function(response){
+                console.log(response);
+                callback(response);
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+                console.log("Error: " + JSON.stringify(error));
+            }
+        });
+    }
+    $("body").on('click','.add-check-save-button', function(){
+        var check = $("#check-code").val();
+        var room = $("#check-room").val();
+        var name = $("#check-name").val();
+        var data = {
+            returnAjax: true,
+            check_type: check,
+            room: room,
+            roomName: name
+        };
+        createRoomEvent(data, function(){
+            
+        });
+    });
 });

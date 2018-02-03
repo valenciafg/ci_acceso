@@ -2,6 +2,7 @@
     <?php
     $this->load->view('common/header');
     $this->load->view('common/menu',['item'=>'roomstatus']);
+    $this->load->view('rooms/add-check-room');
     // var_dump($rooms);
     ?>
     <div class="ui vertical segment first-segment">

@@ -18,7 +18,7 @@
     color: rgba(255, 145, 0, 0.9) !important;
 }
 .rojo{
-    color: rgba(255, 0, 0, 0.9) !important;
+    color: rgba(190, 10, 10, 0.9) !important;
 }
 .morado{
     color: rgba(212, 0, 255, 0.9) !important;
@@ -33,12 +33,16 @@
     -webkit-text-stroke: 0.02em black
 }
 .blink_me {
-    animation: blinker 1s linear infinite;
-  }
+    animation: blinker 2s linear infinite;
+}
+
+.blink_me_quick {
+    animation: blinker 500ms linear infinite;
+}
   
-  @keyframes blinker {  
+@keyframes blinker {  
     50% { opacity: 0; }
-  }
+}
   .ui.card, .ui.cards > .card{
     width: 200px !important;
   }

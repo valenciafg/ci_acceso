@@ -11,6 +11,7 @@ class Calendar extends CI_Controller {
             redirect(base_url() . "login");
             die();
         }
-        $this->load->view('calendar/calendar');
+        $data['profile'] = $profile;
+        $this->load->view('calendar/calendar', $data);
     }
 }

@@ -7,11 +7,13 @@ class Services extends CI_Controller {
         // $this->load->model('rooms_model');
     }
     public function index(){
-        /*if(!$profile || count($profile)<2) {
+        $profile = $this->session->userdata();
+        if(!$profile || count($profile)<2) {
             redirect(base_url() . "login");
             die();
-        }*/
-        $this->load->view('services/services');
+        }
+        $data['profile'] = $profile;
+        $this->load->view('services/services',$data);
     }
     public function searchDebtCANTV(){
         $returnAjax = $this->input->post('returnAjax');

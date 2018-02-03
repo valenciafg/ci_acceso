@@ -8,7 +8,7 @@ class Auth{
     private $host = '172.24.10.10';
     private $port = '389';
     private $domain_prefix = 'PLAZAMERU\\';
-    private $default_group = 'g_AppMeru';
+    private $default_group = 'g_MeruLink';
     private $base_dn = "DC=plazameru,DC=com";
 
     public function __construct() {
@@ -81,7 +81,7 @@ class Auth{
                             $return = ["error" => false, "msg" => "Usuario Conectado","source"=>$source,'profile'=>$this->profile];
                         }
                     }else{
-                        $return = ["error" => false, "msg" => "El usuario no tiene acceso a este sistema"];
+                        $return = ["error" => true, "msg" => "El usuario no tiene acceso a este sistema"];
                     }
                 }else{
                     $return = ["error" => true, "msg" => "No se puede conectar el usuario especificado"];
@@ -108,8 +108,12 @@ class Auth{
         $entries = @ldap_get_entries($ldap_conn, $search_result);
         return $entries;
     }
-    public function get_user_profile($user){
-        return array('user'=>$user);
+    public function get_user_profile($profile){
+        return [
+            'user'=>$profile['samaccountname'][0],
+            'displayName' => $profile['displayname'][0],
+            'mail' => $profile['userprincipalname'][0]
+        ];
     }
     /*
     $base_dn = "DC=YourDomain,DC=com";

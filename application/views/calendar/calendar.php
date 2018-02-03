@@ -1,6 +1,6 @@
 <?php
 $this->load->view('common/header');
-$this->load->view('common/menu',['item'=>'home']);
+$this->load->view('common/menu',['item'=>'home','profile'=>$profile]);
 ?>
 
     <div id="calendar-segmentx" class="ui vertical segment first-segment" style="margin: 0;">

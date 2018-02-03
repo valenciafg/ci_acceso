@@ -1,3 +1,6 @@
+<?php
+$profile = isset($profile)?$profile:['displayName'=>'Usuario'];
+?>
 <div id="main-menu" class="ui fixed stackable menu">
     <div class="item">
         <img src="dist/images/hotel_logof.png">
@@ -37,7 +40,7 @@
     <div class="right menu">
         <a href="<?= base_url().'settings';?>" class="<?= ($item=='settings'?'active ':'')?>item">Configuración</a>
         <div class="ui dropdown item item-user">
-            Usuario <i class="dropdown icon"></i>
+            <?= $profile['displayName'];?><i class="dropdown icon"></i>
             <div class="menu">
             <a class="item" href="<?= base_url()."logout";?>">Salir</a>
             </div>

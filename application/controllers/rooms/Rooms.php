@@ -31,6 +31,7 @@ class Rooms extends CI_Controller {
             redirect(base_url() . "login");
             die();
         }
+        $data['profile'] = $profile;
         $data['operators'] = $this->rooms_model->getOperators();
         $this->load->view('rooms/operators',$data);
     }
@@ -70,6 +71,7 @@ class Rooms extends CI_Controller {
             redirect(base_url() . "login");
             die();
         }
+        $data['profile'] = $profile;
         $data['eventtypes'] = $this->rooms_model->getEventTypes();
         $data['availability'] = $this->rooms_model->getRoomAvailability();
         $data['status'] = $this->rooms_model->getRoomStatusRecords();
@@ -153,6 +155,7 @@ class Rooms extends CI_Controller {
             redirect(base_url() . "login");
             die();
         }
+        $data['profile'] = $profile;
         $data['rooms'] = $this->getRoomStatus();
         $this->load->view('rooms/room-status',$data);
     }
@@ -183,6 +186,31 @@ class Rooms extends CI_Controller {
         header('Content-Type: application/json');
         echo json_encode($sw);
     }
+    public function createRoomEvent(){
+        $returnAjax = $this->input->post('returnAjax');
+        $guest = $this->input->post('guest');
+        $check_type = $this->input->post('check_type');
+        $event_code = $this->input->post('event_code');
+        $room = $this->input->post('room');
+        $roomName = $this->input->post('roomName');
+        $operator = $this->input->post('operator');
+        $data['roomExtension'] = $room;
+        $data['roomName'] = $roomName;
+        if($event_code == null || $event_code == ''){
+            if($check_type=='1'){//Check-In
+                $data['eventCode'] = '105';
+            }else{//Check-Out
+                $data['eventCode'] = '110';
+            }
+        }else{
+            $data['eventCode'] = $event_code;
+        }
+        $data['operatorCode'] = $operator == null?'35':$operator;
+        $data['guestName'] = $guest == null?'':$guest;
+        $sw = $this->rooms_model->insertRoomEvent($data);
+        header('Content-Type: application/json');
+        echo json_encode($sw);
+    }
     /**
      * Room events seciton
      */
@@ -192,6 +220,7 @@ class Rooms extends CI_Controller {
             redirect(base_url() . "login");
             die();
         }
+        $data['profile'] = $profile;
         $data['operators'] = $this->rooms_model->getOperators();
         $data['rooms'] = $this->rooms_model->getRoom();
         $data['events'] = [];

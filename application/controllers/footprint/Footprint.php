@@ -12,6 +12,7 @@ class Footprint extends CI_Controller {
             die();
         }
         $data['door_schedule'] = [];
+        $data['profile'] = $profile;
         $this->load->view('doors/schedule',$data);
     }
     public function users(){
@@ -21,6 +22,7 @@ class Footprint extends CI_Controller {
             die();
         }
         $data['footprint_users'] = $this->footprint_model->getAllUsers();
+        $data['profile'] = $profile;
         $this->load->view('footprint/users',$data);
     }
     public function search(){
@@ -29,6 +31,7 @@ class Footprint extends CI_Controller {
             redirect(base_url() . "login");
             die();
         }
+        $data['profile'] = $profile;
         $data['departments'] = $this->footprint_model->getAllDepartment();
         $data['employees'] = $this->footprint_model->getEmployees();
         // $data['footprint_users'] = $this->footprint_model->getAllUsers();

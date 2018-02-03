@@ -1,6 +1,6 @@
 <h2 class="ui header">
     Tipos de Eventos
-    <button class="tiny ui green button add-event-type-btn">Agregar</button>
+    <!--<button class="tiny ui green button add-event-type-btn">Agregar</button>-->
 </h2>
 <table id="eventTypesTable" class="ui celled table" cellspacing="0" width="100%">
     <thead>

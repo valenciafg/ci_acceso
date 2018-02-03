@@ -208,7 +208,7 @@ $(document).ready(function() {
                     $(".login-message").show(1000).delay(3000).fadeOut();
                 }else{
                     //setTimeout(function () {
-                    window.location.href = app_url  + 'main';
+                    window.location.href = app_url;
                     //}, 1000);
                 }
             },

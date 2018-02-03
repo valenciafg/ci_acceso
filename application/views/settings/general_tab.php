@@ -8,13 +8,16 @@
 	$roomstatus_update_time = 120;
 	if(isset($settings['roomstatus_update_time']))
 		$roomstatus_update_time = $settings['roomstatus_update_time'];
+	$checkout_time_limit = 10;
+	if(isset($settings['checkout_time_limit']))
+		$checkout_time_limit = $settings['checkout_time_limit'];
 ?>
 <div id="general-settings" class="ui bottom attached tab segment active" data-tab="tab-general">
 	<form id="general-settings-form" class="ui form">
 		<h4 class="ui dividing header">Configuración Página Principal</h4>
 		<div class="fields">
 			<div class="field">
-				<label>Tiempo de actualización (Segundos)</label>
+				<label>Tiempo de actualizacion control acceso (Segundos)</label>
 				<div class="ui input corner labeled">
 					<input class="seconds_time" placeholder="Tiempo" type="number" name="general_update_time" min="1" max="60" value="<?= $general_update_time ?>">
 					<div class="ui corner label">
@@ -26,6 +29,15 @@
 				<label>Tiempo de actualización Room Status (Segundos)</label>
 				<div class="ui input corner labeled">
 					<input class="seconds_time" placeholder="Tiempo" type="number" name="roomstatus_update_time" min="1" max="1000" value="<?= $roomstatus_update_time ?>">
+					<div class="ui corner label">
+						<i class="wait icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Tiempo Check-out (Minutos)</label>
+				<div class="ui input corner labeled">
+					<input class="seconds_time" placeholder="Tiempo" type="number" name="checkout_time_limit" min="1" max="60" value="<?= $checkout_time_limit ?>">
 					<div class="ui corner label">
 						<i class="wait icon"></i>
 					</div>

@@ -14,6 +14,7 @@ class Main extends CI_Controller {
             die();
         }
         $dactions = $this->doors_model->getLastActions();
+        $data['profile'] = $profile;
         $data['door_actions'] = $dactions;
         $data['settings'] = $this->settings_model->getAllSettings();
         $this->load->view('dashboard/main',$data);

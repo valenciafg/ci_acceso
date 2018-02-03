@@ -28,7 +28,7 @@ class Settings extends CI_Controller {
         $password = $this->input->post('password');
         $response = $this->auth->ldap_login_user($login,$password);
         if(!$response['error']){
-            $profile = $this->auth->get_user_profile($login);
+            $profile = $this->auth->get_user_profile($response['profile'][0]);
             $this->session->set_userdata($profile);
         }
         header('Content-Type: application/json');
@@ -54,6 +54,10 @@ class Settings extends CI_Controller {
         $config['configName'] = 'roomstatus_update_time';
         $config['configValue'] = $roomstatus_update_time;
         $data[] = $config;
+        $checkout_time_limit = $this->input->post('checkout_time_limit');
+        $config['configName'] = 'checkout_time_limit';
+        $config['configValue'] = $checkout_time_limit;
+        $data[] = $config;
         $result = $this->settings_model->save_all_config($data);
         if($result>0){
             $msg = "Algunos datos no fueron almacenados";
@@ -75,6 +79,14 @@ class Settings extends CI_Controller {
     public function getRoomStatusUpdateTimeAjax(){
         $data = [];
         $config = $this->settings_model->get_config_field('roomstatus_update_time');
+        if($config)
+            $data = ['time'=> $config->configValue];
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
+    public function getCheckOutTimeLimitAjax(){
+        $data = [];
+        $config = $this->settings_model->get_config_field('checkout_time_limit');
         if($config)
             $data = ['time'=> $config->configValue];
         header('Content-Type: application/json');
